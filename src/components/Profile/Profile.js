@@ -18,11 +18,14 @@ function Profile() {
         Done Recipes
       </button>
       </Link>
+      <Link to="/favorite-recipes">
+
       <button
         type="button"
         data-testid="profile-favorite-btn"
         onClick={ () => console.log('Favorite Recipes') }
-      >
+        >
+        </Link>
         Favorite Recipes
       </button>
       <button
