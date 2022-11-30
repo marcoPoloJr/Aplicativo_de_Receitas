@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Profile() {
   localStorage.setItem('user', 'teste@test.com');
@@ -8,13 +9,15 @@ function Profile() {
     <div>
       <h1>Profile</h1>
       <p data-testid="profile-email">{email}</p>
+      <Link to='/done-recipes'>                    
       <button
         type="button"
         data-testid="profile-favorite-btn"
         onClick={ () => console.log('Done Recipes') }
-      >
+        >
         Done Recipes
       </button>
+      </Link>
       <button
         type="button"
         data-testid="profile-favorite-btn"
