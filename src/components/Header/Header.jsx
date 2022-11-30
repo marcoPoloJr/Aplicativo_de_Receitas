@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import searchIcon from '../../images/searchIcon.svg';
 import profileIcon from '../../images/profileIcon.svg';
 import '../../App.css';
+import SearchBar from './SearchBar';
 
 function Header(props) {
   const [buttonSearch, setButtonSearch] = useState(false);
@@ -21,11 +22,16 @@ function Header(props) {
           <img src={ profileIcon } alt="profileIcon" />
         </a>
 
-        <button type="button" onClick={ searchButton }>
-          <img src={ searchIcon } data-testid="search-top-btn" alt="searchIcon" />
+        <button type="button" onClick={ searchButton } className="searchBtn">
+          <img
+            src={ searchIcon }
+            data-testid="search-top-btn"
+            alt="searchIcon"
+          />
         </button>
 
       </div>
+      <SearchBar />
     </header>
   );
 }
