@@ -67,6 +67,8 @@
   }
 }
 
-.svg {
-  background-color: white;
+button {
+  background: none;
+  border: none;
+  outline: none;
 }
