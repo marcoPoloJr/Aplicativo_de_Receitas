@@ -1,8 +1,8 @@
 import React from 'react';
 
 function Profile() {
-    localStorage.setItem('user', 'teste@test.com');
-    const email = localStorage.getItem('user');
+  localStorage.setItem('user', 'teste@test.com');
+  const email = localStorage.getItem('user');
 
   return (
     <div>
