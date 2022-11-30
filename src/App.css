@@ -66,3 +66,9 @@
     transform: rotate(-10deg);
   }
 }
+
+.searchBtn {
+  background: none;
+  border: none;
+  outline: none;
+}
