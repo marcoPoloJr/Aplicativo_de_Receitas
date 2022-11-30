@@ -1,29 +1,34 @@
 import React from 'react';
 
 function Profile() {
-    
+    localStorage.setItem('user', 'teste@test.com');
+    const email = localStorage.getItem('user');
+
   return (
     <div>
       <h1>Profile</h1>
-      <p data-testid="profile-email">email@email.com</p>
-      <button 
-      type='button'
-      data-testid="profile-favorite-btn"
-      onClick={()=> console.log('Done Recipes')}>
+      <p data-testid="profile-email">{email}</p>
+      <button
+        type="button"
+        data-testid="profile-favorite-btn"
+        onClick={ () => console.log('Done Recipes') }
+      >
         Done Recipes
-       </button>
-       <button 
-      type='button'
-      data-testid="profile-favorite-btn"
-      onClick={()=> console.log("Favorite Recipes")}>
+      </button>
+      <button
+        type="button"
+        data-testid="profile-favorite-btn"
+        onClick={ () => console.log('Favorite Recipes') }
+      >
         Favorite Recipes
-        </button>
-        <button 
-      type='button'
-      data-testid="profile-logout-btn"
-      onClick={()=> console.log("Logout")}>
+      </button>
+      <button
+        type="button"
+        data-testid="profile-logout-btn"
+        onClick={ () => console.log('Logout') }
+      >
         Logout
-        </button>
+      </button>
     </div>
 
   );
