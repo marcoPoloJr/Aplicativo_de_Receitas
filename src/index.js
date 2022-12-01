@@ -8,7 +8,6 @@ import RecipesProvider from './context/RecipesProvider';
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
-
     // <App />,
     <RecipesProvider>
       <App />
