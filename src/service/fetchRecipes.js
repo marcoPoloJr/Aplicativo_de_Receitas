@@ -15,3 +15,21 @@ export async function fetchDrink() {
   const twelveDrinks = allDrinks.slice(0, DOZE);
   return twelveDrinks;
 }
+
+export async function fetchBtnsMeal() {
+  const CINCO = 5;
+  const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+  const json = await response.json();
+  const allBtnsMeal = json.meals;
+  const fiveBtnsMeals = allBtnsMeal.slice(0, CINCO);
+  return fiveBtnsMeals;
+}
+
+export async function fetchBtnsDrinks() {
+  const CINCO = 5;
+  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+  const json = await response.json();
+  const allBtnsDrinks = json.drinks;
+  const fiveBtnsDrinks = allBtnsDrinks.slice(0, CINCO);
+  return fiveBtnsDrinks;
+}

@@ -4,11 +4,20 @@ import RecipesContext from '../../context/RecipesContext';
 
 function Recipe() {
   const location = useLocation().pathname;
-  const { allMeals, allDrinks } = useContext(RecipesContext);
+  const { allMeals, allDrinks, allBtnsMeal, allBtnsDrink } = useContext(RecipesContext);
   if (location === '/meals') {
     return (
       <div>
         <h2>Comidas</h2>
+        { allBtnsMeal.map(({ strCategory }, ind) => (
+          <button
+            key={ ind }
+            type="button"
+            data-testid={ `${strCategory}-category-filter` }
+          >
+            {strCategory}
+          </button>
+        ))}
         { allMeals.map((ele, ind) => (
           <div key={ ind } data-testid={ `${ind}-recipe-card` }>
             <img
@@ -26,6 +35,15 @@ function Recipe() {
     return (
       <div>
         <h2>Bebidas</h2>
+        { allBtnsDrink.map(({ strCategory }, i) => (
+          <button
+            key={ i }
+            type="button"
+            data-testid={ `${strCategory}-category-filter` }
+          >
+            {strCategory}
+          </button>
+        ))}
         { allDrinks.map((ele, ind) => (
           <div key={ ind } data-testid={ `${ind}-recipe-card` }>
             <img

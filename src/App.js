@@ -2,15 +2,15 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Recipe from './components/recipe/Recipe';
+import Recipes from './components/recipe/Recipes';
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
         {/* <Route exact patch="/" component={ () => {} } /> */}
-        <Route exact patch="/meals" component={ Recipe } />
-        <Route exact patch="/drinks" component={ Recipe } />
+        <Route exact patch="/meals" component={ Recipes } />
+        <Route exact patch="/drinks" component={ Recipes } />
         <Route exact patch="/meals/:id-da-receita" component={ () => {} } />
         <Route exact patch="/drinks/:id-da-receita" component={ () => {} } />
         <Route patch="/meals/:id-da-receita/in-progress" component={ () => {} } />
