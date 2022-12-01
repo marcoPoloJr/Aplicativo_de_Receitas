@@ -16,7 +16,7 @@ function App() {
         <Route exact patch="/drinks/:id-da-receita" component={ () => {} } />
         <Route patch="/meals/:id-da-receita/in-progress" component={ () => {} } />
         <Route patch="/drinks/:id-da-receita/in-progress" component={ () => {} } />
-        <Route patch="/profile" component={ Profile} />
+        <Route patch="/profile" component={ Profile } />
         <Route patch="/done-recipes" component={ () => {} } />
         <Route patch="/favorite-recipes" component={ () => {} } />
       </Switch>
