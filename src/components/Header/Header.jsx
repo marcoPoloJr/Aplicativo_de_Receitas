@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import searchIcon from '../../images/searchIcon.svg';
 import profileIcon from '../../images/profileIcon.svg';
 import '../../App.css';
 import SearchBar from './SearchBar';
 
-function Header(props) {
+function Header() {
   const [buttonSearch, setButtonSearch] = useState(false);
-  const { location: { pathname } } = props;
+  const { location: { pathname } } = useLocation();
+  console.log(props);
 
   const searchButton = () => {
     setButtonSearch(!buttonSearch);
