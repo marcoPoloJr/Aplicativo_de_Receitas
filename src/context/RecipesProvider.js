@@ -11,6 +11,8 @@ function RecipesProvider({ children }) {
   const [allDrinksFixed, setAllDrinksFixed] = useState([]);
   const [allBtnsMeal, setAllBtnsMeal] = useState([]);
   const [allBtnsDrink, setAllBtnsDrink] = useState([]);
+  const [typeMeal, setTypeMeal] = useState('');
+  const [typeDrink, setTypeDrink] = useState('');
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -32,17 +34,23 @@ function RecipesProvider({ children }) {
   const filterEspecifMeal = async (typeFood) => {
     if (typeFood === 'all') {
       setAllMeals(allMealsFixed);
+    } else if (typeMeal === typeFood) {
+      setAllMeals(allMealsFixed);
     } else {
+      setTypeMeal(typeFood);
       const meals = await fetchMeal(typeFood);
       setAllMeals(meals);
     }
   };
 
-  const filterEspecifDrink = async (typeDrink) => {
-    if (typeDrink === 'all') {
+  const filterEspecifDrink = async (typeBeverage) => {
+    if (typeBeverage === 'all') {
+      setAllDrinks(allDrinksFixed);
+    } else if (typeDrink === typeBeverage) {
       setAllDrinks(allDrinksFixed);
     } else {
-      const drinks = await fetchDrink(typeDrink);
+      setTypeDrink(typeBeverage);
+      const drinks = await fetchDrink(typeBeverage);
       setAllDrinks(drinks);
     }
   };
