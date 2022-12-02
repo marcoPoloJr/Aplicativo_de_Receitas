@@ -1,10 +1,13 @@
 import React from 'react';
 
 function Profile() {
+  localStorage.setItem('user', 'teste@test.com');
+  const email = localStorage.getItem('user');
+
   return (
     <div>
       <h1>Profile</h1>
-      <p data-testid="profile-email">email@email.com</p>
+      <p data-testid="profile-email">{email}</p>
       <button
         type="button"
         data-testid="profile-favorite-btn"
