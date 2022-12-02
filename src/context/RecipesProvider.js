@@ -6,7 +6,9 @@ import RecipesContext from './RecipesContext';
 
 function RecipesProvider({ children }) {
   const [allMeals, setAllMeals] = useState([]);
+  const [allMealsFixed, setAllMealsFixed] = useState([]);
   const [allDrinks, setAllDrinks] = useState([]);
+  const [allDrinksFixed, setAllDrinksFixed] = useState([]);
   const [allBtnsMeal, setAllBtnsMeal] = useState([]);
   const [allBtnsDrink, setAllBtnsDrink] = useState([]);
 
@@ -17,7 +19,9 @@ function RecipesProvider({ children }) {
       const bntsMeal = await fetchBtnsMeal();
       const bntsDrink = await fetchBtnsDrinks();
       setAllMeals(meals);
+      setAllMealsFixed(meals);
       setAllDrinks(drinks);
+      setAllDrinksFixed(drinks);
       setAllBtnsMeal(bntsMeal);
       setAllBtnsDrink(bntsDrink);
     };
@@ -25,11 +29,31 @@ function RecipesProvider({ children }) {
     getRecipes();
   }, []);
 
+  const filterEspecifMeal = async (typeFood) => {
+    if (typeFood === 'all') {
+      setAllMeals(allMealsFixed);
+    } else {
+      const meals = await fetchMeal(typeFood);
+      setAllMeals(meals);
+    }
+  };
+
+  const filterEspecifDrink = async (typeDrink) => {
+    if (typeDrink === 'all') {
+      setAllDrinks(allDrinksFixed);
+    } else {
+      const drinks = await fetchDrink(typeDrink);
+      setAllDrinks(drinks);
+    }
+  };
+
   const things = useMemo(() => ({
     allMeals,
     allDrinks,
     allBtnsMeal,
     allBtnsDrink,
+    filterEspecifMeal,
+    filterEspecifDrink,
   }), [allMeals, allDrinks, allBtnsMeal, allBtnsDrink]);
 
   return (
