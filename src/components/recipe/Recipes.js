@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import RecipesContext from '../../context/RecipesContext';
 
 function Recipe() {
@@ -34,11 +34,13 @@ function Recipe() {
         </div>
         { allMeals.map((ele, ind) => (
           <div key={ ind } data-testid={ `${ind}-recipe-card` }>
-            <img
-              src={ ele.strMealThumb }
-              alt={ ele.strMeal }
-              data-testid={ `${ind}-card-img` }
-            />
+            <Link to={ `/meals/${ele.idMeal}` }>
+              <img
+                src={ ele.strMealThumb }
+                alt={ ele.strMeal }
+                data-testid={ `${ind}-card-img` }
+              />
+            </Link>
             <p data-testid={ `${ind}-card-name` }>{ele.strMeal}</p>
           </div>
         ))}
@@ -71,11 +73,13 @@ function Recipe() {
         </div>
         { allDrinks.map((ele, ind) => (
           <div key={ ind } data-testid={ `${ind}-recipe-card` }>
-            <img
-              src={ ele.strDrinkThumb }
-              alt={ ele.strDrink }
-              data-testid={ `${ind}-card-img` }
-            />
+            <Link to={ `/drinks/${ele.idDrink}` }>
+              <img
+                src={ ele.strDrinkThumb }
+                alt={ ele.strDrink }
+                data-testid={ `${ind}-card-img` }
+              />
+            </Link>
             <p data-testid={ `${ind}-card-name` }>{ele.strDrink}</p>
           </div>
         ))}
