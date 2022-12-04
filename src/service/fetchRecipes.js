@@ -49,3 +49,15 @@ export async function fetchBtnsDrinks() {
   const fiveBtnsDrinks = allBtnsDrinks.slice(0, CINCO);
   return fiveBtnsDrinks;
 }
+
+export async function fetchMealsId(id) {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const json = await response.json();
+  return json.meals[0];
+}
+
+export async function fetchDrinksId(id) {
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const json = await response.json();
+  return json.drinks[0];
+}
