@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { fetchMealsId, fetchDrinksId } from '../../service/fetchRecipes';
+import RecipesContext from '../../context/RecipesContext';
+import './RecipeDetails.css';
 
 function RecipeDetails(props) {
   const { match: { params: { id } } } = props;
@@ -9,6 +11,7 @@ function RecipeDetails(props) {
   const [recipe, setRecipe] = useState('');
   const [ingrediente, setIngrediente] = useState([]);
   const [pounds, setPounds] = useState([]);
+  const { allDrinks, allMeals } = useContext(RecipesContext);
 
   useEffect(() => {
     if (location.includes('meals')) {
@@ -56,6 +59,7 @@ function RecipeDetails(props) {
   }, [recipe]);
 
   if (location.includes('drinks')) {
+    const SEIS = 6;
     return (
       <div>
         <img
@@ -80,11 +84,32 @@ function RecipeDetails(props) {
               : null))}
         </ul>
         <p data-testid="instructions">{recipe.strInstructions}</p>
+        <h3>Recomended</h3>
+        <div id="divRecomen">
+          {allMeals.slice(0, SEIS).map((ele, ind) => (
+            <div
+              key={ ind }
+              data-testid={ `${ind}-recommendation-card` }
+              id="divCardRecomen"
+            >
+              <img className="imgRecomen" src={ ele.strMealThumb } alt={ ele.strMeal } />
+              <p data-testid={ `${ind}-recommendation-title` }>{ele.strMeal}</p>
+            </div>
+          ))}
+        </div>
+        <button
+          id="btnStartRecipe"
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          Start Recipe
+        </button>
       </div>
     );
   }
 
   if (location.includes('meals')) {
+    const SEIS = 6;
     return (
       <div>
         <img
@@ -120,6 +145,30 @@ function RecipeDetails(props) {
           allowFullScreen
           data-testid="video"
         />
+        <h3>Recomended</h3>
+        <div id="divRecomen">
+          {allDrinks.slice(0, SEIS).map((eleme, ind) => (
+            <div
+              key={ ind }
+              data-testid={ `${ind}-recommendation-card` }
+              id="divCardRecomen"
+            >
+              <img
+                className="imgRecomen"
+                src={ eleme.strDrinkThumb }
+                alt={ eleme.strDrink }
+              />
+              <p data-testid={ `${ind}-recommendation-title` }>{eleme.strDrink}</p>
+            </div>
+          ))}
+        </div>
+        <button
+          id="btnStartRecipe"
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          Start Recipe
+        </button>
       </div>
     );
   }
