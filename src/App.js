@@ -2,9 +2,7 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-// import Recipes from './components/recipe/Recipes';
 import Profile from './components/Profile/Profile';
-
 import Recipes from './components/recipe/Recipes';
 
 function App() {
@@ -12,7 +10,6 @@ function App() {
     <BrowserRouter>
       <Switch>
         {/* <Route exact patch="/" component={ () => {} } /> */}
-
         <Route exact patch="/meals" component={ Recipes } />
         <Route exact patch="/drinks" component={ Recipes } />
         <Route patch="/meals/:id-da-receita/in-progress" component={ () => {} } />
@@ -24,5 +21,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;
