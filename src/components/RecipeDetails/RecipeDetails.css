@@ -1,0 +1,22 @@
+#divRecomen {
+  display: flex;
+  overflow: auto;
+  width: 425px;
+}
+
+#divCardRecomen {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.imgRecomen {
+  height: 200px;
+  width: 200px;
+}
+
+#btnStartRecipe {
+  bottom: 0px;
+  position: fixed;
+}

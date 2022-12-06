@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Profile() {
   localStorage.setItem('user', 'teste@test.com');
@@ -8,27 +9,35 @@ function Profile() {
     <div>
       <h1>Profile</h1>
       <p data-testid="profile-email">{email}</p>
-      <button
-        type="button"
-        data-testid="profile-favorite-btn"
-        onClick={ () => console.log('Done Recipes') }
-      >
-        Done Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-favorite-btn"
-        onClick={ () => console.log('Favorite Recipes') }
-      >
-        Favorite Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-logout-btn"
-        onClick={ () => console.log('Logout') }
-      >
-        Logout
-      </button>
+      <Link to="/done-recipes">
+        <button
+          type="button"
+          data-testid="profile-favorite-btn"
+          onClick={ () => console.log('Done Recipes') }
+        >
+          Done Recipes
+        </button>
+      </Link>
+      <Link to="/favorite-recipes">
+        <button
+          type="button"
+          data-testid="profile-favorite-btn"
+          onClick={ () => console.log('Favorite Recipes') }
+        >
+          Favorite Recipes
+        </button>
+      </Link>
+
+      <Link to="/">
+        <button
+          type="button"
+          data-testid="profile-logout-btn"
+          onClick={ () => console.log('Logout') }
+        >
+          Logout
+        </button>
+      </Link>
+
     </div>
 
   );
