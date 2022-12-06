@@ -50,6 +50,17 @@ export async function fetchBtnsDrinks() {
   return fiveBtnsDrinks;
 }
 
+export async function fetchMealsId(id) {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const json = await response.json();
+  return json.meals[0];
+}
+
+export async function fetchDrinksId(id) {
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const json = await response.json();
+  return json.drinks[0];
+ 
 export async function fetchBtnSearchIngredient(ingrediente) {
   if (ingrediente === '') return [];
   const DOZE = 12;
