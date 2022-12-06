@@ -11,6 +11,7 @@ function RecipesProvider({ children }) {
   const [allDrinksFixed, setAllDrinksFixed] = useState([]);
   const [allBtnsMeal, setAllBtnsMeal] = useState([]);
   const [allBtnsDrink, setAllBtnsDrink] = useState([]);
+
   const [typeMeal, setTypeMeal] = useState('');
   const [typeDrink, setTypeDrink] = useState('');
 
