@@ -19,7 +19,6 @@ function Profile() {
         </button>
       </Link>
       <Link to="/favorite-recipes">
-
         <button
           type="button"
           data-testid="profile-favorite-btn"
@@ -28,6 +27,7 @@ function Profile() {
           Favorite Recipes
         </button>
       </Link>
+
       <Link to="/">
         <button
           type="button"
@@ -37,6 +37,7 @@ function Profile() {
           Logout
         </button>
       </Link>
+
     </div>
 
   );
