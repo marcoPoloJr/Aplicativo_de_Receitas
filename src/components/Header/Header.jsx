@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import searchIcon from '../../images/searchIcon.svg';
 import profileIcon from '../../images/profileIcon.svg';
 import '../../App.css';
@@ -8,32 +8,55 @@ import SearchBar from './SearchBar';
 
 function Header() {
   const [buttonSearch, setButtonSearch] = useState(false);
-  const { location: { pathname } } = useLocation();
-  console.log(props);
+  const { pathname } = useLocation();
+  const history = useHistory();
 
   const searchButton = () => {
     setButtonSearch(!buttonSearch);
+  };
+  // useeffect(() => {
+
+  // }, []);
+  const titilePage = () => {
+    if (pathname === '/profile') return 'Profile';
+    if (pathname === '/meals') return 'Meals';
+    if (pathname === '/drinks') return 'Drinks';
+    if (pathname === '/done-recipes') return 'Done Recipes';
+    if (pathname === '/favorite-recipes') return 'Favorite Recipes';
   };
   return (
     <header>
       <div>
         <p data-testid="page-title">
-          {pathname === '/profile' ? 'Profile' : 'pathname' }
+          {titilePage()}
         </p>
-        <a href="/profile">
-          <img src={ profileIcon } alt="profileIcon" />
-        </a>
-
-        <button type="button" onClick={ searchButton } className="searchBtn">
-          <img
-            src={ searchIcon }
-            data-testid="search-top-btn"
-            alt="searchIcon"
-          />
+        <button
+          type="button"
+          className="searchBtn"
+          onClick={ () => {
+            history.push('/profile');
+          } }
+        >
+          <img src={ profileIcon } alt="profileIcon" data-testid="profile-top-btn" />
         </button>
 
+        {
+          (pathname !== '/profile' && pathname !== '/done-recipes')
+          && (
+            <button type="button" onClick={ searchButton } className="searchBtn">
+              <img
+                src={ searchIcon }
+                data-testid="search-top-btn"
+                alt="searchIcon"
+              />
+            </button>
+          )
+        }
+
       </div>
-      <SearchBar />
+      {
+        buttonSearch && <SearchBar />
+      }
     </header>
   );
 }

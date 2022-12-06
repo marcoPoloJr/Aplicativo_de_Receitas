@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        {/* <Route exact patch="/" component={ () => {} } /> */}
+        <Route exact patch="/" component={ () => {} } />
         <Route exact patch="/meals" component={ Recipes } />
         <Route exact patch="/drinks" component={ Recipes } />
         <Route patch="/meals/:id-da-receita/in-progress" component={ () => {} } />
