@@ -2,23 +2,24 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-// import Recipe from './components/recipe/Recipe';
 import Profile from './components/Profile/Profile';
+import Recipes from './components/recipe/Recipes';
+import RecipeDetails from './components/RecipeDetails/RecipeDetails';
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        {/* <Route  patch="/" component={ () => {} } /> */}
-        <Route exact patch="/meals" component={ () => {} } />
-        <Route exact patch="/drinks" component={ () => {} } />
-        <Route exact patch="/meals/:id-da-receita" component={ () => {} } />
-        <Route exact patch="/drinks/:id-da-receita" component={ () => {} } />
-        <Route exact patch="/meals/:id-da-receita/in-progress" component={ () => {} } />
-        <Route exact patch="/drinks/:id-da-receita/in-progress" component={ () => {} } />
-        <Route patch="/done-recipes" component={ () => {} } />
-        <Route patch="/profile" component={ Profile } />
-        <Route patch="/favorite-recipes" component={ () => {} } />
+        {/* <Route exact path="/" component={ () => {} } /> */}
+        <Route exact path="/meals" component={ Recipes } />
+        <Route exact path="/drinks" component={ Recipes } />
+        <Route exact path="/meals/:id" component={ RecipeDetails } />
+        <Route exact path="/drinks/:id" component={ RecipeDetails } />
+        <Route path="/meals/:id-da-receita/in-progress" component={ () => {} } />
+        <Route path="/drinks/:id-da-receita/in-progress" component={ () => {} } />
+        <Route path="/profile" component={ Profile } />
+        <Route path="/done-recipes" component={ () => {} } />
+        <Route path="/favorite-recipes" component={ () => {} } />
       </Switch>
     </BrowserRouter>
   );
