@@ -3,13 +3,12 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Recipes from './components/recipe/Recipes';
-import Header from './components/Header/Header';
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact patch="/" component={ Header } />
+        <Route exact patch="/" component={ () => {} } />
         <Route exact patch="/meals" component={ Recipes } />
         <Route exact patch="/drinks" component={ Recipes } />
         <Route exact patch="/meals/:id-da-receita" component={ () => {} } />
