@@ -29,6 +29,11 @@
 }
 */
 
+.footer {
+  bottom: 0;
+  position: fixed;
+}
+
 .meals > .logo {
   animation: shake 1.5s infinite ease;
   color: aliceblue;
@@ -65,4 +70,10 @@
   100% {
     transform: rotate(-10deg);
   }
+}
+
+.searchBtn {
+  background: none;
+  border: none;
+  outline: none;
 }
