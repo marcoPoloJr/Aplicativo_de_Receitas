@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Profile from './components/Profile/Profile';
 import Recipes from './components/recipe/Recipes';
 import RecipeDetails from './components/RecipeDetails/RecipeDetails';
 
@@ -23,5 +24,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import RecipesContext from '../../context/RecipesContext';
+import Footer from '../Footer';
 
 function Recipe() {
   const location = useLocation().pathname;
@@ -44,6 +45,7 @@ function Recipe() {
             <p data-testid={ `${ind}-card-name` }>{ele.strMeal}</p>
           </div>
         ))}
+        <Footer />
       </div>
     );
   }
@@ -83,6 +85,7 @@ function Recipe() {
             <p data-testid={ `${ind}-card-name` }>{ele.strDrink}</p>
           </div>
         ))}
+        <Footer />
       </div>
     );
   }
