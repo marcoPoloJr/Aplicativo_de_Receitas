@@ -11,10 +11,17 @@ function App() {
     <BrowserRouter>
       <Switch>
         {/* <Route exact patch="/" component={ () => {} } /> */}
+        <Route
+          exact
+          patch="/meals/:id-da-receita/in-progress"
+          component={ RecipeInProgress }
+        />
         <Route exact patch="/meals" component={ Recipes } />
         <Route exact patch="/drinks" component={ Recipes } />
-        <Route patch="/meals/:id-da-receita/in-progress" component={ RecipeInProgress } />
-        <Route patch="/drinks/:id-da-receita/in-progress" component={ RecipeInProgress } />
+        <Route
+          patch="/drinks/:id-da-receita/in-progress"
+          component={ RecipeInProgress }
+        />
         <Route patch="/profile" component={ Profile } />
         <Route patch="/done-recipes" component={ () => {} } />
         <Route patch="/favorite-recipes" component={ () => {} } />
