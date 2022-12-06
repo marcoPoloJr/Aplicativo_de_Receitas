@@ -9,6 +9,7 @@ function RecipesProvider({ children }) {
   const [allDrinks, setAllDrinks] = useState([]);
   const [allBtnsMeal, setAllBtnsMeal] = useState([]);
   const [allBtnsDrink, setAllBtnsDrink] = useState([]);
+  // ==== Header ==== //
 
   useEffect(() => {
     const getRecipes = async () => {
