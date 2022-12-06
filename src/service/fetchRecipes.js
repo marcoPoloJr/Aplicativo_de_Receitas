@@ -1,4 +1,12 @@
-export async function fetchMeal() {
+export async function fetchMeal(comida) {
+  if (comida) {
+    const DOZE = 12;
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${comida}`);
+    const json = await response.json();
+    const allMeals = json.meals;
+    const twelveMeals = allMeals.slice(0, DOZE);
+    return twelveMeals;
+  }
   const DOZE = 12;
   const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
   const json = await response.json();
@@ -7,7 +15,15 @@ export async function fetchMeal() {
   return twelveMeals;
 }
 
-export async function fetchDrink() {
+export async function fetchDrink(bebida) {
+  if (bebida) {
+    const DOZE = 12;
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${bebida}`);
+    const json = await response.json();
+    const allDrinks = json.drinks;
+    const twelveDrinks = allDrinks.slice(0, DOZE);
+    return twelveDrinks;
+  }
   const DOZE = 12;
   const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
   const json = await response.json();
