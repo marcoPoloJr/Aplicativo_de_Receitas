@@ -28,13 +28,16 @@ function Profile() {
         </button>
       </Link>
 
-      <button
-        type="button"
-        data-testid="profile-logout-btn"
-        onClick={ () => console.log('Logout') }
-      >
-        Logout
-      </button>
+      <Link to="/">
+        <button
+          type="button"
+          data-testid="profile-logout-btn"
+          onClick={ () => console.log('Logout') }
+        >
+          Logout
+        </button>
+      </Link>
+
     </div>
 
   );
