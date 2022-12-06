@@ -19,14 +19,14 @@ function Profile() {
         </button>
       </Link>
       <Link to="/favorite-recipes">
-      <button
-        type="button"
-        data-testid="profile-favorite-btn"
-        onClick={ () => console.log('Favorite Recipes') }
+        <button
+          type="button"
+          data-testid="profile-favorite-btn"
+          onClick={ () => console.log('Favorite Recipes') }
         >
-        Favorite Recipes
-      </button>
-        </Link>
+          Favorite Recipes
+        </button>
+      </Link>
 
       <button
         type="button"
