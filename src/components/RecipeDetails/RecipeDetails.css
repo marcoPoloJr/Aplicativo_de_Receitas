@@ -1,10 +1,10 @@
-#divRecomen {
+.divRecomen {
   display: flex;
   overflow: auto;
   width: 425px;
 }
 
-#divCardRecomen {
+.divCardRecomen {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@
   width: 200px;
 }
 
-#btnStartRecipe {
-  bottom: 0px;
+.btnStartRecipe {
+  bottom: 0;
   position: fixed;
 }
