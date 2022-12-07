@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { fetchMealsId } from '../../service/fetchRecipes';
 import RecipesContext from '../../context/RecipesContext';
 import '../RecipeDetails/RecipeDetails.css';
 
 function MealDetails({ id }) {
+  const location = useLocation().pathname;
   const [recipe, setRecipe] = useState('');
   const [ingrediente, setIngrediente] = useState([]);
   const [pounds, setPounds] = useState([]);
   const [isProgress, setIsProgress] = useState(false);
+  const [isBtnShare, setIsBtnShare] = useState(true);
   const { allDrinks } = useContext(RecipesContext);
 
   const checkProgressRecipe = () => {
@@ -22,6 +24,15 @@ function MealDetails({ id }) {
         if (chavesMeals.includes(id)) setIsProgress(true);
       }
     }
+  };
+
+  const copyLink = () => {
+    const MIL = 1000;
+    setIsBtnShare(false);
+    navigator.clipboard.writeText(`http://localhost:3000${location}`);
+    setTimeout(() => {
+      setIsBtnShare(true);
+    }, MIL);
   };
 
   useEffect(() => {
@@ -68,9 +79,15 @@ function MealDetails({ id }) {
         alt={ recipe.strMeal }
         data-testid="recipe-photo"
       />
-      <button type="button" data-testid="share-btn">
-        Compartilhar
-      </button>
+      {isBtnShare
+        ? (
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ () => { copyLink(); } }
+          >
+            Compartilhar
+          </button>) : <p>Link copied!</p>}
       <button type="button" data-testid="favorite-btn">
         Favoritar
       </button>
@@ -137,3 +154,12 @@ MealDetails.propTypes = {
 };
 
 export default MealDetails;
+
+// const linkCopied = ({ target }) => {
+// const mil = 1000;
+// setBtnShare(true);
+// navigator.clipboard.writeText(`http://localhost:3000/${target.name}`);
+// setTimeout(() => {
+// setBtnShare(false);
+// }, mil);
+// };

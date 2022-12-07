@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { fetchDrinksId } from '../../service/fetchRecipes';
 import RecipesContext from '../../context/RecipesContext';
 import '../RecipeDetails/RecipeDetails.css';
 
 function DrinkDetails({ id }) {
+  const location = useLocation().pathname;
   const [recipe, setRecipe] = useState('');
   const [ingrediente, setIngrediente] = useState([]);
   const [pounds, setPounds] = useState([]);
   const [isProgress, setIsProgress] = useState(false);
+  const [isBtnShare, setIsBtnShare] = useState(true);
   const { allMeals } = useContext(RecipesContext);
 
   const checkProgressRecipe = () => {
@@ -26,6 +28,15 @@ function DrinkDetails({ id }) {
         if (chavesDrinks.includes(id)) setIsProgress(true);
       }
     }
+  };
+
+  const copyLink = () => {
+    const MIL = 1000;
+    setIsBtnShare(false);
+    navigator.clipboard.writeText(`http://localhost:3000${location}`);
+    setTimeout(() => {
+      setIsBtnShare(true);
+    }, MIL);
   };
 
   useEffect(() => {
@@ -75,9 +86,15 @@ function DrinkDetails({ id }) {
         width="350px"
         height="350px"
       />
-      <button type="button" data-testid="share-btn">
-        Compartilhar
-      </button>
+      {isBtnShare
+        ? (
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ () => { copyLink(); } }
+          >
+            Compartilhar
+          </button>) : <p>Link copied!</p>}
       <button type="button" data-testid="favorite-btn">
         Favoritar
       </button>
