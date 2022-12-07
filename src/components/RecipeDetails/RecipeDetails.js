@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
-import { fetchMealsId, fetchDrinksId } from '../../service/fetchRecipes';
 import RecipesContext from '../../context/RecipesContext';
+import { fetchDrinksId, fetchMealsId } from '../../service/fetchRecipes';
 import './RecipeDetails.css';
 
 function RecipeDetails(props) {
@@ -85,12 +85,12 @@ function RecipeDetails(props) {
         </ul>
         <p data-testid="instructions">{recipe.strInstructions}</p>
         <h3>Recomended</h3>
-        <div id="divRecomen">
+        <div className="divRecomen">
           {allMeals.slice(0, SEIS).map((ele, ind) => (
             <div
               key={ ind }
               data-testid={ `${ind}-recommendation-card` }
-              id="divCardRecomen"
+              className="divCardRecomen"
             >
               <img className="imgRecomen" src={ ele.strMealThumb } alt={ ele.strMeal } />
               <p data-testid={ `${ind}-recommendation-title` }>{ele.strMeal}</p>
@@ -98,7 +98,7 @@ function RecipeDetails(props) {
           ))}
         </div>
         <button
-          id="btnStartRecipe"
+          className="btnStartRecipe"
           type="button"
           data-testid="start-recipe-btn"
         >
@@ -146,12 +146,12 @@ function RecipeDetails(props) {
           data-testid="video"
         />
         <h3>Recomended</h3>
-        <div id="divRecomen">
+        <div className="divRecomen">
           {allDrinks.slice(0, SEIS).map((eleme, ind) => (
             <div
               key={ ind }
               data-testid={ `${ind}-recommendation-card` }
-              id="divCardRecomen"
+              className="divCardRecomen"
             >
               <img
                 className="imgRecomen"
@@ -163,7 +163,7 @@ function RecipeDetails(props) {
           ))}
         </div>
         <button
-          id="btnStartRecipe"
+          className="btnStartRecipe"
           type="button"
           data-testid="start-recipe-btn"
         >
