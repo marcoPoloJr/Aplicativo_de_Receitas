@@ -11,7 +11,17 @@ function RecipeDetails(props) {
   const [recipe, setRecipe] = useState('');
   const [ingrediente, setIngrediente] = useState([]);
   const [pounds, setPounds] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { allDrinks, allMeals } = useContext(RecipesContext);
+
+  const checkDoneRecipes = () => {
+    const allDoneRecipes = localStorage.getItem('doneRecipes');
+    if (allDoneRecipes) {
+      const allDoneRecipesArray = JSON.parse(allDoneRecipes);
+      const wasDone = allDoneRecipesArray.some((ele) => ele.id === id);
+      setIsDisabled(wasDone);
+    }
+  };
 
   useEffect(() => {
     if (location.includes('meals')) {
@@ -30,6 +40,7 @@ function RecipeDetails(props) {
 
       getDrinksDetails();
     }
+    checkDoneRecipes();
   }, []);
 
   useEffect(() => {
@@ -101,6 +112,7 @@ function RecipeDetails(props) {
           id="btnStartRecipe"
           type="button"
           data-testid="start-recipe-btn"
+          disabled={ isDisabled }
         >
           Start Recipe
         </button>
@@ -166,6 +178,7 @@ function RecipeDetails(props) {
           id="btnStartRecipe"
           type="button"
           data-testid="start-recipe-btn"
+          disabled={ isDisabled }
         >
           Start Recipe
         </button>
