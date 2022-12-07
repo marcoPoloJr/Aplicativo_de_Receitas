@@ -69,9 +69,14 @@ function DrinkDetails({ id }) {
     const allFavoriteRecipes = localStorage.getItem('favoriteRecipes');
     if (allFavoriteRecipes) {
       const allFavoriteRecipesArray = JSON.parse(allFavoriteRecipes);
-      console.log(allFavoriteRecipesArray);
-      const arrayObj = [...allFavoriteRecipesArray, obj];
-      localStorage.setItem('favoriteRecipes', JSON.stringify(arrayObj));
+      const checkRecipeIsFavorite = allFavoriteRecipesArray.every((ele) => ele.id !== id);
+      if (checkRecipeIsFavorite) {
+        const arrayObj = [...allFavoriteRecipesArray, obj];
+        localStorage.setItem('favoriteRecipes', JSON.stringify(arrayObj));
+      } else {
+        const newFavoriteArray = allFavoriteRecipesArray.filter((ele) => ele.id !== id);
+        localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteArray));
+      }
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify([obj]));
     }
