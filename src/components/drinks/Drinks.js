@@ -39,6 +39,28 @@ function DrinkDetails({ id }) {
     }, MIL);
   };
 
+  const saveRecipe = () => {
+    const { idDrink, strCategory, strAlcoholic, strDrink, strDrinkThumb } = recipe;
+    const obj = {
+      id: idDrink,
+      type: 'drink',
+      nationality: '',
+      category: strCategory,
+      alcoholicOrNot: strAlcoholic,
+      name: strDrink,
+      image: strDrinkThumb,
+    };
+    const allFavoriteRecipes = localStorage.getItem('favoriteRecipes');
+    if (allFavoriteRecipes) {
+      const allFavoriteRecipesArray = JSON.parse(allFavoriteRecipes);
+      console.log(allFavoriteRecipesArray);
+      const arrayObj = [...allFavoriteRecipesArray, obj];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(arrayObj));
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([obj]));
+    }
+  };
+
   useEffect(() => {
     const getDrinksDetails = async () => {
       const detailsDrink = await fetchDrinksId(id);
@@ -95,7 +117,11 @@ function DrinkDetails({ id }) {
           >
             Compartilhar
           </button>) : <p>Link copied!</p>}
-      <button type="button" data-testid="favorite-btn">
+      <button
+        type="button"
+        data-testid="favorite-btn"
+        onClick={ () => { saveRecipe(); } }
+      >
         Favoritar
       </button>
       <h2 data-testid="recipe-title">{recipe.strDrink}</h2>
