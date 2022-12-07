@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './RecipeDetails.css';
 import Meals from '../meals/Meals';
