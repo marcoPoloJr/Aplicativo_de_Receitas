@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { drinkBtnSearchFirstLetter, drinkBtnSearchIngredient, drinkBtnSearchName,
+import RecipesContext from '../../context/RecipesContext';
+import {
+  drinkBtnSearchFirstLetter, drinkBtnSearchIngredient, drinkBtnSearchName,
   fetchBtnSearchFirstLetter, fetchBtnSearchIngredient, fetchBtnSearchName,
 } from '../../service/fetchRecipes';
 
@@ -9,10 +11,13 @@ export default function SearchBar() {
     searchValue: '',
     filter: '',
   });
-  const [searchBtn, setSearchBtn] = useState(false);
+  // const [searchBtn, setSearchBtn] = useState(false);
   const [apiRequest, setApiRequest] = useState([]);
   const { pathname } = useLocation();
   const history = useHistory();
+
+  //
+  const { searchBtn, setSearched } = useContext(RecipesContext);
 
   const saveInfoRadio = ({ target }) => {
     setSearch({ ...search, filter: target.id });
@@ -74,7 +79,7 @@ export default function SearchBar() {
     }
   };
   const alertError = () => {
-    setSearchBtn(false);
+    setSearched(false);
     return global.alert('Sorry, we haven\'t found any recipes for these filters.');
   };
   const rencerRecipes = () => {
@@ -146,8 +151,8 @@ export default function SearchBar() {
           data-testid="exec-search-btn"
           onClick={ async () => {
             await handleClick();
-            setSearchBtn(true);
-            if (searchBtn === true) setSearchBtn(false);
+            setSearched(true);
+            if (searchBtn === true) setSearched(false);
           } }
         >
           search

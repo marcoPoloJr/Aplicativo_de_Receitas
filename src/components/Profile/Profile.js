@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
 
 function Profile() {
   localStorage.setItem('user', 'teste@test.com');
@@ -7,6 +9,7 @@ function Profile() {
 
   return (
     <div>
+      <Header />
       <h1>Profile</h1>
       <p data-testid="profile-email">{email}</p>
       <Link to="/done-recipes">
@@ -37,7 +40,7 @@ function Profile() {
           Logout
         </button>
       </Link>
-
+      <Footer />
     </div>
 
   );
