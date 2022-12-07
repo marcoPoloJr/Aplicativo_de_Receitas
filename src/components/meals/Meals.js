@@ -35,6 +35,27 @@ function MealDetails({ id }) {
     }, MIL);
   };
 
+  const saveRecipe = () => {
+    const { idMeal, strArea, strCategory, strMeal, strMealThumb } = recipe;
+    const obj = {
+      id: idMeal,
+      type: 'meal',
+      nationality: strArea,
+      category: strCategory,
+      alcoholicOrNot: '',
+      name: strMeal,
+      image: strMealThumb,
+    };
+    const allFavoriteRecipes = localStorage.getItem('favoriteRecipes');
+    if (allFavoriteRecipes) {
+      const allFavoriteRecipesArray = JSON.parse(allFavoriteRecipes);
+      const arrayObj = [...allFavoriteRecipesArray, obj];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(arrayObj));
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([obj]));
+    }
+  };
+
   useEffect(() => {
     const getMealsDetails = async () => {
       const detailsMeal = await fetchMealsId(id);
@@ -88,7 +109,11 @@ function MealDetails({ id }) {
           >
             Compartilhar
           </button>) : <p>Link copied!</p>}
-      <button type="button" data-testid="favorite-btn">
+      <button
+        type="button"
+        data-testid="favorite-btn"
+        onClick={ () => { saveRecipe(); } }
+      >
         Favoritar
       </button>
       <h2 data-testid="recipe-title">{recipe.strMeal}</h2>
