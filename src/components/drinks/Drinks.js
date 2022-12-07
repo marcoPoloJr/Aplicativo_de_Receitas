@@ -4,6 +4,8 @@ import { useEffect, useState, useContext } from 'react';
 import { fetchDrinksId } from '../../service/fetchRecipes';
 import RecipesContext from '../../context/RecipesContext';
 import '../RecipeDetails/RecipeDetails.css';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
 function DrinkDetails({ id }) {
   const location = useLocation().pathname;
@@ -12,6 +14,7 @@ function DrinkDetails({ id }) {
   const [pounds, setPounds] = useState([]);
   const [isProgress, setIsProgress] = useState(false);
   const [isBtnShare, setIsBtnShare] = useState(true);
+  const [isFavoriteRecipe, setIsFavoriteRecipe] = useState(false);
   const { allMeals } = useContext(RecipesContext);
 
   const checkProgressRecipe = () => {
@@ -39,6 +42,19 @@ function DrinkDetails({ id }) {
     }, MIL);
   };
 
+  const checkFavoriteRecipeOrNot = () => {
+    const allFavoriteRecipes = localStorage.getItem('favoriteRecipes');
+    if (allFavoriteRecipes) {
+      const allFavoriteRecipesArray = JSON.parse(allFavoriteRecipes);
+      const favoriteOk = allFavoriteRecipesArray.some((ele) => ele.id === id);
+      if (favoriteOk) {
+        setIsFavoriteRecipe(true);
+      } else {
+        setIsFavoriteRecipe(false);
+      }
+    }
+  };
+
   const saveRecipe = () => {
     const { idDrink, strCategory, strAlcoholic, strDrink, strDrinkThumb } = recipe;
     const obj = {
@@ -59,6 +75,7 @@ function DrinkDetails({ id }) {
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify([obj]));
     }
+    checkFavoriteRecipeOrNot();
   };
 
   useEffect(() => {
@@ -68,7 +85,7 @@ function DrinkDetails({ id }) {
     };
 
     getDrinksDetails();
-
+    checkFavoriteRecipeOrNot();
     checkProgressRecipe();
   }, []);
 
@@ -121,8 +138,13 @@ function DrinkDetails({ id }) {
         type="button"
         data-testid="favorite-btn"
         onClick={ () => { saveRecipe(); } }
+        src={ isFavoriteRecipe ? blackHeartIcon : whiteHeartIcon }
+        aria-label={ isFavoriteRecipe ? 'remove favorite' : 'favorite it' } // coment 1
       >
-        Favoritar
+        <img
+          src={ isFavoriteRecipe ? blackHeartIcon : whiteHeartIcon }
+          alt={ isFavoriteRecipe ? 'blackHeartIcon' : 'whiteHeartIcon' }
+        />
       </button>
       <h2 data-testid="recipe-title">{recipe.strDrink}</h2>
       <h3 data-testid="recipe-category">{recipe.strAlcoholic}</h3>
@@ -172,3 +194,6 @@ DrinkDetails.propTypes = {
 };
 
 export default DrinkDetails;
+
+// Coments:
+// 1- https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/control-has-associated-label.md
