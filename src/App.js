@@ -6,12 +6,13 @@ import Header from './components/Header/Header';
 import Profile from './components/Profile/Profile';
 import Recipes from './components/recipe/Recipes';
 import RecipeDetails from './components/RecipeDetails/RecipeDetails';
+import Login from './pages/Login';
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        {/* <Route exact path="/" component={ () => {} } /> */}
+        <Route exact path="/" component={ Login } />
         <Route exact path="/meals" component={ Recipes } />
         <Route exact path="/drinks" component={ Recipes } />
         <Route exact path="/meals/:id" component={ RecipeDetails } />
