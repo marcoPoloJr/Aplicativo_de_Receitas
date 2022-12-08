@@ -1,3 +1,9 @@
+import React, { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
+import RecipesContext from '../../context/RecipesContext';
+import shareIcon from '../../images/shareIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+
 function RecipeInProgress() {
   const {
     allMeals,
