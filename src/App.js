@@ -13,15 +13,15 @@ function App() {
       <Switch>
         {/* <Route exact patch="/" component={ () => {} } /> */}
         
-        <Route exact patch="/meals" component={ Recipes } />
-        <Route exact patch="/drinks" component={ Recipes } />
-        <Route exact path="/meals/:id" component={ RecipeDetails } />
-        <Route exact path="/drinks/:id" component={ RecipeDetails } />
         <Route
           exact
           patch="/meals/:id/in-progress"
           component={ RecipeInProgress }
         />
+        <Route exact patch="/meals" component={ Recipes } />
+        <Route exact patch="/drinks" component={ Recipes } />
+        <Route exact path="/meals/:id" component={ RecipeDetails } />
+        <Route exact path="/drinks/:id" component={ RecipeDetails } />
         <Route
           patch="/drinks/:id/in-progress"
           component={ RecipeInProgress }
