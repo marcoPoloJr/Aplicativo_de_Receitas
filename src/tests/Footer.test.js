@@ -1,7 +1,7 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Footer from '../components/Footer';
+import React from 'react';
+import Footer from '../components/Footer/Footer';
 import renderWithRouter from '../renderWithRouter';
 
 describe('Testa o componente Footer', () => {

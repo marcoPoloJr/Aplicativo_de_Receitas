@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import searchIcon from '../../images/searchIcon.svg';
-import profileIcon from '../../images/profileIcon.svg';
 import '../../App.css';
+import profileIcon from '../../images/profileIcon.svg';
+import searchIcon from '../../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
 function Header() {
@@ -41,7 +41,8 @@ function Header() {
         </button>
 
         {
-          (pathname !== '/profile' && pathname !== '/done-recipes')
+          (pathname !== '/profile' && pathname !== '/done-recipes'
+          && pathname !== '/favorite-recipes')
           && (
             <button type="button" onClick={ searchButton } className="searchBtn">
               <img

@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
-  fetchMeal, fetchDrink, fetchBtnsMeal, fetchBtnsDrinks } from '../service/fetchRecipes';
+  fetchBtnsDrinks, fetchBtnsMeal,
+  fetchDrink, fetchMeal,
+} from '../service/fetchRecipes';
 import RecipesContext from './RecipesContext';
 
 function RecipesProvider({ children }) {
@@ -11,6 +13,7 @@ function RecipesProvider({ children }) {
   const [allDrinksFixed, setAllDrinksFixed] = useState([]);
   const [allBtnsMeal, setAllBtnsMeal] = useState([]);
   const [allBtnsDrink, setAllBtnsDrink] = useState([]);
+  const [searchBtn, setSearchBtn] = useState(false); //
 
   const [typeMeal, setTypeMeal] = useState('');
   const [typeDrink, setTypeDrink] = useState('');
@@ -31,6 +34,10 @@ function RecipesProvider({ children }) {
 
     getRecipes();
   }, []);
+
+  const setSearched = (value) => {
+    setSearchBtn(value);
+  };
 
   const filterEspecifMeal = async (typeFood) => {
     if (typeFood === 'all') {
@@ -61,9 +68,11 @@ function RecipesProvider({ children }) {
     allDrinks,
     allBtnsMeal,
     allBtnsDrink,
+    searchBtn,
+    setSearched,
     filterEspecifMeal,
     filterEspecifDrink,
-  }), [allMeals, allDrinks, allBtnsMeal, allBtnsDrink]);
+  }), [allMeals, allDrinks, allBtnsMeal, allBtnsDrink, searchBtn]);
 
   return (
     <RecipesContext.Provider value={ things }>

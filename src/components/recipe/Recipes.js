@@ -1,17 +1,19 @@
 import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import RecipesContext from '../../context/RecipesContext';
-import Footer from '../Footer';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
 
 function Recipe() {
   const location = useLocation().pathname;
   const {
     allMeals, allDrinks, allBtnsMeal, allBtnsDrink, filterEspecifMeal, filterEspecifDrink,
-  } = useContext(RecipesContext);
+    searchBtn } = useContext(RecipesContext);
   if (location === '/meals') {
     return (
       <div>
         <h2>Comidas</h2>
+        <Header />
         <div>
           <button
             type="button"
@@ -33,7 +35,7 @@ function Recipe() {
             </button>
           ))}
         </div>
-        { allMeals.map((ele, ind) => (
+        { !searchBtn && allMeals.map((ele, ind) => (
           <div key={ ind } data-testid={ `${ind}-recipe-card` }>
             <Link to={ `/meals/${ele.idMeal}` }>
               <img
@@ -53,6 +55,7 @@ function Recipe() {
     return (
       <div>
         <h2>Bebidas</h2>
+        <Header />
         <div>
           <button
             type="button"
@@ -73,7 +76,7 @@ function Recipe() {
             </button>
           ))}
         </div>
-        { allDrinks.map((ele, ind) => (
+        { !searchBtn && allDrinks.map((ele, ind) => (
           <div key={ ind } data-testid={ `${ind}-recipe-card` }>
             <Link to={ `/drinks/${ele.idDrink}` }>
               <img
