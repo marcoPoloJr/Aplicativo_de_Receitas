@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import blackHeart from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 import Header from './Header/Header';
@@ -79,12 +80,18 @@ function FavoriteRecipes() {
                   .filter(({ type }) => type.includes(theTypeFood))
                   .map((ele, ind) => (
                     <div key={ ind }>
-                      <img
-                        src={ ele.image }
-                        alt={ ele.name }
-                        data-testid={ `${ind}-horizontal-image` }
-                      />
-                      <h3 data-testid={ `${ind}-horizontal-name` }>{ele.name}</h3>
+                      <Link to={ `/${ele.type}s/${ele.id}` }>
+                        <img
+                          src={ ele.image }
+                          alt={ ele.name }
+                          data-testid={ `${ind}-horizontal-image` }
+                          width="350"
+                          height="350"
+                        />
+                      </Link>
+                      <Link to={ `/${ele.type}s/${ele.id}` }>
+                        <h3 data-testid={ `${ind}-horizontal-name` }>{ele.name}</h3>
+                      </Link>
                       <p
                         data-testid={ `${ind}-horizontal-top-text` }
                       >
