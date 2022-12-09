@@ -29,8 +29,8 @@ function App() {
           component={ RecipeInProgress }
         />
         <Route path="/profile" component={ Profile } />
-        <Route path="/done-recipes" component={ () => {} } />
-        <Route path="/favorite-recipes" component={ () => {} } />
+        <Route path="/done-recipes" component={ () => { Header } } />
+        <Route path="/favorite-recipes" component={ () => { Header } } />
       </Switch>
     </BrowserRouter>
   );
