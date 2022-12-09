@@ -7,6 +7,7 @@ import Profile from './components/Profile/Profile';
 import Recipes from './components/recipe/Recipes';
 import RecipeInProgress from './components/RecipeInProgress/RecipeInProgress';
 import RecipeDetails from './components/RecipeDetails/RecipeDetails';
+import FavoriteRecipes from './components/FavoriteRecipes';
 import Login from './pages/Login';
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
         />
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ Header } />
-        <Route path="/favorite-recipes" component={ Header } />
+        <Route path="/favorite-recipes" component={ FavoriteRecipes } />
       </Switch>
     </BrowserRouter>
   );
