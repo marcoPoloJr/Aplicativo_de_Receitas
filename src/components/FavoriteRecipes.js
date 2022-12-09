@@ -4,6 +4,7 @@ import shareIcon from '../images/shareIcon.svg';
 
 function FavoriteRecipes() {
   const [allFavoriteRecipes, setAllFavoriteRecipes] = useState([]);
+  const [isBtnShare, setIsBtnShare] = useState(true);
 
   const checkFavoriteRecipes = () => {
     const allFavRecipe = localStorage.getItem('favoriteRecipes');
@@ -11,6 +12,16 @@ function FavoriteRecipes() {
       const allFavRecipeArray = JSON.parse(allFavRecipe);
       setAllFavoriteRecipes(allFavRecipeArray);
     }
+  };
+
+  const copyLink = (typeFood, idFood) => {
+    const urlMaked = `/${typeFood}s/${idFood}`;
+    const MIL = 1000;
+    setIsBtnShare(false);
+    navigator.clipboard.writeText(`http://localhost:3000${urlMaked}`);
+    setTimeout(() => {
+      setIsBtnShare(true);
+    }, MIL);
   };
 
   useEffect(() => {
@@ -61,14 +72,16 @@ function FavoriteRecipes() {
                       {ele.type === 'meal' ? `${ele.nationality} - ${ele.category}`
                         : `${ele.alcoholicOrNot}`}
                     </p>
-                    <button
-                      type="button"
-                      data-testid={ `${ind}-horizontal-share-btn` }
-                      src={ shareIcon }
-                      // onClick={ () => { copyLink(); } }
-                    >
-                      <img src={ shareIcon } alt="shareIcon" />
-                    </button>
+                    {isBtnShare
+                      ? (
+                        <button
+                          type="button"
+                          data-testid={ `${ind}-horizontal-share-btn` }
+                          src={ shareIcon }
+                          onClick={ () => { copyLink(ele.type, ele.id); } }
+                        >
+                          <img src={ shareIcon } alt="shareIcon" />
+                        </button>) : <span>Link copied!</span>}
                     <button
                       type="button"
                       data-testid={ `${ind}-horizontal-favorite-btn` }
