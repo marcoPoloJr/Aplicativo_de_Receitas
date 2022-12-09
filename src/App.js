@@ -13,7 +13,6 @@ function App() {
     <BrowserRouter>
       <Switch>
         {/* <Route exact path="/" component={ () => {} } /> */}
-        
         <Route exact path="/meals" component={ Recipes } />
         <Route exact path="/drinks" component={ Recipes } />
         <Route exact path="/meals/:id" component={ RecipeDetails } />
@@ -28,8 +27,8 @@ function App() {
           component={ RecipeInProgress }
         />
         <Route path="/profile" component={ Profile } />
-        <Route path="/done-recipes" component={ () => { Header } } />
-        <Route path="/favorite-recipes" component={ () => { Header } } />
+        <Route path="/done-recipes" component={ Header } />
+        <Route path="/favorite-recipes" component={ Header } />
       </Switch>
     </BrowserRouter>
   );
