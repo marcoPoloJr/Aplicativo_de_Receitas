@@ -58,7 +58,8 @@ function FavoriteRecipes() {
                     <p
                       data-testid={ `${ind}-horizontal-top-text` }
                     >
-                      {`${ele.nationality} - ${ele.category}`}
+                      {ele.type === 'meal' ? `${ele.nationality} - ${ele.category}`
+                        : `${ele.alcoholicOrNot}`}
                     </p>
                     <button
                       type="button"
