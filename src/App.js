@@ -6,6 +6,7 @@ import Header from './components/Header/Header';
 import Profile from './components/Profile/Profile';
 import Recipes from './components/recipe/Recipes';
 import RecipeDetails from './components/RecipeDetails/RecipeDetails';
+import FavoriteRecipes from './components/FavoriteRecipes';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route path="/drinks/:id/in-progress" component={ () => {} } />
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ Header } />
-        <Route path="/favorite-recipes" component={ Header } />
+        <Route path="/favorite-recipes" component={ FavoriteRecipes } />
       </Switch>
     </BrowserRouter>
   );
