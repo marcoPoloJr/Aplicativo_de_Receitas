@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import blackHeart from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
+import Header from './Header/Header';
 
 function FavoriteRecipes() {
   const [allFavoriteRecipes, setAllFavoriteRecipes] = useState([]);
@@ -45,6 +46,7 @@ function FavoriteRecipes() {
 
   return (
     <div>
+      <Header />
       { allFavoriteRecipes
         ? (
           <div>
