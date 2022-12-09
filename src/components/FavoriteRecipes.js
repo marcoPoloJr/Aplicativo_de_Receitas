@@ -24,9 +24,21 @@ function FavoriteRecipes() {
     }, MIL);
   };
 
+  const removeFavorites = (id) => {
+    const allFavRecipes = localStorage.getItem('favoriteRecipes');
+    if (allFavRecipes) {
+      const allFavoriteRecipesArray = JSON.parse(allFavRecipes);
+      const checkRecipeIsFavorite = allFavoriteRecipesArray.some((ele) => ele.id === id);
+      if (checkRecipeIsFavorite) {
+        const newFavoriteArray = allFavoriteRecipesArray.filter((ele) => ele.id !== id);
+        localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteArray));
+      }
+    }
+  };
+
   useEffect(() => {
     checkFavoriteRecipes();
-  }, []);
+  }, [allFavoriteRecipes]);
 
   return (
     <div>
@@ -86,7 +98,7 @@ function FavoriteRecipes() {
                       type="button"
                       data-testid={ `${ind}-horizontal-favorite-btn` }
                       src={ blackHeart }
-                      // onClick={ () => { copyLink(); } }
+                      onClick={ () => { removeFavorites(ele.id); } }
                     >
                       <img src={ blackHeart } alt="blackHeart" />
                     </button>
