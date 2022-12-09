@@ -7,7 +7,6 @@ import Profile from './components/Profile/Profile';
 import Recipes from './components/recipe/Recipes';
 import RecipeInProgress from './components/RecipeInProgress/RecipeInProgress';
 import RecipeDetails from './components/RecipeDetails/RecipeDetails';
-
 import Login from './pages/Login';
 
 function App() {
