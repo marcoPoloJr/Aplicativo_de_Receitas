@@ -72,11 +72,11 @@ function RecipeInProgressDrinks() {
             {ingredients.map((el, index) => (
               <li key={ index }>
                 <label
-                  htmlFor="ingredient-step"
+                  htmlFor={ index }
                   data-testid={ `${index}-ingredient-step` }
                 >
                   <input
-                    id="ingredient-step"
+                    id={ index }
                     type="checkbox"
                     onClick={ handleCheck }
                   />

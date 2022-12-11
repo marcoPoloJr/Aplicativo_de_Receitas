@@ -13,7 +13,9 @@ function RecipeInProgressMeals() {
   } = useContext(RecipesContext);
   const location = useLocation().pathname;
   const numberPathname = location.match(/\d+/g).map(Number)[0];
+  console.log(numberPathname);
   const recipe = allMeals.filter((ele) => ele.idMeal.includes(numberPathname));
+  console.log(allMeals);
   const magicSliceMin = 9;
   const magicSliceMax = 29;
   const ingredientsValues = recipe.map((ele) => Object.values(ele)
@@ -68,11 +70,11 @@ function RecipeInProgressMeals() {
             {ingredients.map((el, index) => (
               <li key={ index }>
                 <label
-                  htmlFor="ingredient-step"
+                  htmlFor={ index }
                   data-testid={ `${index}-ingredient-step` }
                 >
                   <input
-                    id="ingredient-step"
+                    id={ index }
                     type="checkbox"
                     onClick={ handleCheck }
                   />
