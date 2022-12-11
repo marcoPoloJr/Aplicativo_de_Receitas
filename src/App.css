@@ -29,6 +29,10 @@
 }
 */
 
+.ingredientCheck {
+  text-decoration: line-through solid black;
+}
+
 .footer {
   bottom: 0;
   position: fixed;
