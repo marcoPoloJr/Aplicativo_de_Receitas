@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import RecipesContext from '../../context/RecipesContext';
 import shareIcon from '../../images/shareIcon.svg';
@@ -11,6 +11,7 @@ function RecipeInProgressMeals() {
     allMeals,
     // , allDrinks, allBtnsMeal, allBtnsDrink, filterEspecifMeal, filterEspecifDrink,
   } = useContext(RecipesContext);
+  const [ingredientCheck, getIngredientCheck]= useState([])
   const location = useLocation().pathname;
   const numberPathname = location.match(/\d+/g).map(Number)[0];
   const recipe = allMeals.filter((ele) => ele.idMeal.includes(numberPathname));
@@ -27,8 +28,10 @@ function RecipeInProgressMeals() {
     });
   });
   const handleCheck = ({ target }) => {
+    console.log(target.parentElement)
     if (target.checked) {
       target.parentElement.classList = 'ingredientCheck';
+      // ingredientCheck
     } else {
       target.parentElement.classList = '';
     }
