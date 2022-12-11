@@ -31,7 +31,7 @@ function RecipeInProgressMeals() {
     console.log(target.parentElement)
     if (target.checked) {
       target.parentElement.classList = 'ingredientCheck';
-      // ingredientCheck
+      
     } else {
       target.parentElement.classList = '';
     }
