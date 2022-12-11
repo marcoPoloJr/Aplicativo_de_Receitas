@@ -9,7 +9,7 @@ import Header from '../Header/Header';
 function RecipeInProgressDrinks() {
   const {
     allDrinks,
-    //allMeals, allBtnsMeal, allBtnsDrink, filterEspecifMeal, filterEspecifDrink,
+    // allMeals, allBtnsMeal, allBtnsDrink, filterEspecifMeal, filterEspecifDrink,
   } = useContext(RecipesContext);
   console.log(allDrinks);
   const location = useLocation().pathname;
@@ -19,7 +19,7 @@ function RecipeInProgressDrinks() {
   const magicSliceMax = 32;
   const ingredientsValues = recipe.map((ele) => Object.values(ele)
     .slice(magicSliceMin, magicSliceMax));
-    console.log(ingredientsValues);
+  console.log(ingredientsValues);
   const ingredients = [];
   ingredientsValues.forEach((element) => {
     element.forEach((el) => {
@@ -29,10 +29,18 @@ function RecipeInProgressDrinks() {
     });
   });
 
+  const handleCheck = ({ target }) => {
+    if (target.checked) {
+      target.parentElement.classList = 'ingredientCheck';
+    } else {
+      target.parentElement.classList = '';
+    }
+  };
+
   return (
-      <div>
+    <div>
       <Header />
-        <h3>Drinks</h3>
+      <h3>Drinks</h3>
 
       <button
         type="button"
@@ -54,7 +62,7 @@ function RecipeInProgressDrinks() {
         <div key={ ind }>
           <p data-testid="recipe-category">{ele.strCategory}</p>
           <img
-            src={ ele.strDrinkThumb}
+            src={ ele.strDrinkThumb }
             alt={ ele.strDrink }
             data-testid="recipe-photo"
           />
@@ -64,13 +72,13 @@ function RecipeInProgressDrinks() {
             {ingredients.map((el, index) => (
               <li key={ index }>
                 <label
-                // className='ingredientCheck'
                   htmlFor="ingredient-step"
                   data-testid={ `${index}-ingredient-step` }
                 >
                   <input
                     id="ingredient-step"
                     type="checkbox"
+                    onClick={ handleCheck }
                   />
                   {el}
 

@@ -4,7 +4,7 @@ import RecipesContext from '../../context/RecipesContext';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import Header from '../Header/Header';
-// import App from '../../App.css';
+import '../../App.css';
 
 function RecipeInProgressMeals() {
   const {
@@ -26,7 +26,13 @@ function RecipeInProgressMeals() {
       }
     });
   });
-
+  const handleCheck = ({ target }) => {
+    if (target.checked) {
+      target.parentElement.classList = 'ingredientCheck';
+    } else {
+      target.parentElement.classList = '';
+    }
+  };
   return (
     <div>
       <Header />
@@ -62,13 +68,13 @@ function RecipeInProgressMeals() {
             {ingredients.map((el, index) => (
               <li key={ index }>
                 <label
-                // className='ingredientCheck'
                   htmlFor="ingredient-step"
                   data-testid={ `${index}-ingredient-step` }
                 >
                   <input
                     id="ingredient-step"
                     type="checkbox"
+                    onClick={ handleCheck }
                   />
                   {el}
 
