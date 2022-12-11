@@ -29,6 +29,14 @@ function RecipeInProgressDrinks() {
     });
   });
 
+  const handleCheck = ({ target }) => {
+    if (target.checked) {
+      target.parentElement.classList = 'ingredientCheck';
+    } else {
+      target.parentElement.classList = '';
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -64,13 +72,13 @@ function RecipeInProgressDrinks() {
             {ingredients.map((el, index) => (
               <li key={ index }>
                 <label
-                // className='ingredientCheck'
                   htmlFor="ingredient-step"
                   data-testid={ `${index}-ingredient-step` }
                 >
                   <input
                     id="ingredient-step"
                     type="checkbox"
+                    onClick={ handleCheck }
                   />
                   {el}
 
