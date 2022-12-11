@@ -30,6 +30,7 @@ function RecipeInProgressMeals() {
   return (
     <div>
       <Header />
+      <h3>Meals</h3>
 
       <button
         type="button"
@@ -56,6 +57,7 @@ function RecipeInProgressMeals() {
             data-testid="recipe-photo"
           />
           <p data-testid="recipe-title">{ele.strMeal}</p>
+          <h3>Ingredient</h3>
           <ul>
             {ingredients.map((el, index) => (
               <li key={ index }>
@@ -75,7 +77,7 @@ function RecipeInProgressMeals() {
             ))}
           </ul>
 
-          <h3>instructions</h3>
+          <h3>Instructions</h3>
           <p data-testid="instructions">{ele.strInstructions}</p>
           <button
             type="button"

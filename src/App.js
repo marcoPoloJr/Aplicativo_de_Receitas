@@ -7,6 +7,7 @@ import Profile from './components/Profile/Profile';
 import Recipes from './components/recipe/Recipes';
 import RecipeInProgressMeals from './components/RecipeInProgress/RecipeInProgressMeals ';
 import RecipeDetails from './components/RecipeDetails/RecipeDetails';
+import RecipeInProgressDrinks from './components/RecipeInProgress/RecipeInProgressDrinks';
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
         {/* <Route exact patch="/" component={ () => {} } /> */}
 
         <Route
+          patch="/drinks/:id/in-progress"
+          component={ RecipeInProgressDrinks }
+        />
+        <Route
           patch="/meals/:id/in-progress"
           component={ RecipeInProgressMeals }
         />
@@ -22,10 +27,6 @@ function App() {
         <Route exact patch="/drinks" component={ Recipes } />
         <Route exact path="/meals/:id" component={ RecipeDetails } />
         <Route exact path="/drinks/:id" component={ RecipeDetails } />
-        <Route
-          patch="/drinks/:id/in-progress"
-          component={ RecipeInProgressMeals }
-        />
         <Route patch="/profile" component={ Profile } />
         <Route patch="/done-recipes" component={ () => {} } />
         <Route patch="/favorite-recipes" component={ () => {} } />
