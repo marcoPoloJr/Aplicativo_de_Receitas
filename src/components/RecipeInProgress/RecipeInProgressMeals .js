@@ -3,25 +3,33 @@ import { useLocation } from 'react-router-dom';
 import RecipesContext from '../../context/RecipesContext';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import Header from '../Header/Header';
+// import App from '../../App.css';
 
-function RecipeInProgress() {
+function RecipeInProgressMeals() {
   const {
     allMeals,
     // , allDrinks, allBtnsMeal, allBtnsDrink, filterEspecifMeal, filterEspecifDrink,
   } = useContext(RecipesContext);
   const location = useLocation().pathname;
   const numberPathname = location.match(/\d+/g).map(Number)[0];
-  console.log(allMeals);
   const recipe = allMeals.filter((ele) => ele.idMeal.includes(numberPathname));
-  // const ingredients = recipe.map((ele) => Object.keys(ele).filter((el) => el.includes('strIngredient')));
-  // const test = recipe.map((ele)=>Object.entries(ele).map((el)=>el))
-  console.log(recipe);
-  // console.log(ingredients);
-  // console.log(test);
+  const magicSliceMin = 9;
+  const magicSliceMax = 29;
+  const ingredientsValues = recipe.map((ele) => Object.values(ele)
+    .slice(magicSliceMin, magicSliceMax));
+  const ingredients = [];
+  ingredientsValues.forEach((element) => {
+    element.forEach((el) => {
+      if (el !== '' && el !== null) {
+        return ingredients.push(el);
+      }
+    });
+  });
 
   return (
     <div>
-      <h1>ola</h1>
+      <Header />
 
       <button
         type="button"
@@ -38,6 +46,7 @@ function RecipeInProgress() {
       >
         <img src={ whiteHeartIcon } alt="WhiteHeartIcon" />
       </button>
+
       {recipe.map((ele, ind) => (
         <div key={ ind }>
           <p data-testid="recipe-category">{ele.strTags}</p>
@@ -47,6 +56,24 @@ function RecipeInProgress() {
             data-testid="recipe-photo"
           />
           <p data-testid="recipe-title">{ele.strMeal}</p>
+          <ul>
+            {ingredients.map((el, index) => (
+              <li key={ index }>
+                <label
+                // className='ingredientCheck'
+                  htmlFor="ingredient-step"
+                  data-testid={ `${index}-ingredient-step` }
+                >
+                  <input
+                    id="ingredient-step"
+                    type="checkbox"
+                  />
+                  {el}
+
+                </label>
+              </li>
+            ))}
+          </ul>
 
           <h3>instructions</h3>
           <p data-testid="instructions">{ele.strInstructions}</p>
@@ -64,4 +91,4 @@ function RecipeInProgress() {
   );
 }
 
-export default RecipeInProgress;
+export default RecipeInProgressMeals;
