@@ -10,7 +10,7 @@ import { fetchDrinksId } from '../../service/fetchRecipes';
 function RecipeInProgressDrinks() {
   const [drink, setDrink] = useState({});
   const [ingredientes, setIngredientes] = useState([]);
-  const [quant, setQuant] = useState([]);
+  // const [quant, setQuant] = useState([]);
   // const {
   //   allDrinks,
   //   // alldrinks, allBtnsdrink, allBtnsDrink, filterEspecifdrink, filterEspecifDrink,

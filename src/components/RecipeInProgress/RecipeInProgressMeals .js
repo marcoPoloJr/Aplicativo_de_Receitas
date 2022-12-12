@@ -10,7 +10,7 @@ import '../../App.css';
 function RecipeInProgressMeals() {
   const [meal, setMeal] = useState({});
   const [ingredientes, setIngredientes] = useState([]);
-  const [quant, setQuant] = useState([]);
+  // const [quant, setQuant] = useState([]);
   // const {
   //   allMeals,
   //   // , allDrinks, allBtnsMeal, allBtnsDrink, filterEspecifMeal, filterEspecifDrink,
