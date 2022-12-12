@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import '../../App.css';
@@ -14,9 +14,7 @@ function Header() {
   const searchButton = () => {
     setButtonSearch(!buttonSearch);
   };
-  // useeffect(() => {
 
-  // }, []);
   const titilePage = () => {
     if (pathname === '/profile') return 'Profile';
     if (pathname === '/meals') return 'Meals';
@@ -62,10 +60,10 @@ function Header() {
   );
 }
 
-Header.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
-};
+// Header.propTypes = {
+//   location: PropTypes.shape({
+//     pathname: PropTypes.string.isRequired,
+//   }).isRequired,
+// };
 
 export default Header;
