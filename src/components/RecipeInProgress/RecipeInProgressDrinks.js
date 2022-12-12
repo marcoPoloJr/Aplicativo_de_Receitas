@@ -1,41 +1,53 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import RecipesContext from '../../context/RecipesContext';
+// import RecipesContext from '../../context/RecipesContext';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import Header from '../Header/Header';
+import { fetchDrinksId } from '../../service/fetchRecipes';
 // import App from '../../App.css';
 
 function RecipeInProgressDrinks() {
-  const {
-    allDrinks,
-    // allMeals, allBtnsMeal, allBtnsDrink, filterEspecifMeal, filterEspecifDrink,
-  } = useContext(RecipesContext);
-  console.log(allDrinks);
+  const [drink, setDrink] = useState({});
+  // const {
+  //   allDrinks,
+  //   // alldrinks, allBtnsdrink, allBtnsDrink, filterEspecifdrink, filterEspecifDrink,
+  // } = useContext(RecipesContext);
+  // console.log(allDrinks);
   const location = useLocation().pathname;
-  const numberPathname = location.match(/\d+/g).map(Number)[0];
-  const recipe = allDrinks.filter((ele) => ele.idDrink.includes(numberPathname));
-  const magicSliceMin = 17;
-  const magicSliceMax = 32;
-  const ingredientsValues = recipe.map((ele) => Object.values(ele)
-    .slice(magicSliceMin, magicSliceMax));
-  console.log(ingredientsValues);
-  const ingredients = [];
-  ingredientsValues.forEach((element) => {
-    element.forEach((el) => {
-      if (el !== '' && el !== null) {
-        return ingredients.push(el);
-      }
-    });
-  });
+  // const numberPathname = location.match(/\d+/g).map(Number)[0];
+  // const recipe = allDrinks.filter((ele) => ele.idDrink.includes(numberPathname));
+  // const magicSliceMin = 17;
+  // const magicSliceMax = 32;
+  // const ingredientsValues = recipe.map((ele) => Object.values(ele)
+  //   .slice(magicSliceMin, magicSliceMax));
+  // console.log(ingredientsValues);
+  // const ingredients = [];
+  // ingredientsValues.forEach((element) => {
+  //   element.forEach((el) => {
+  //     if (el !== '' && el !== null) {
+  //       return ingredients.push(el);
+  //     }
+  //   });
+  // });
 
-  const handleCheck = ({ target }) => {
-    if (target.checked) {
-      target.parentElement.classList = 'ingredientCheck';
-    } else {
-      target.parentElement.classList = '';
-    }
+  const getTheDrinkInProgress = async () => {
+    const numberId = location.match(/\d+/g).map(Number)[0];
+    const drinkInProgress = await fetchDrinksId(numberId);
+    setDrink(drinkInProgress);
   };
+
+  // const handleCheck = ({ target }) => {
+  //   if (target.checked) {
+  //     target.parentElement.classList = 'ingredientCheck';
+  //   } else {
+  //     target.parentElement.classList = '';
+  //   }
+  // };
+
+  useEffect(() => {
+    getTheDrinkInProgress();
+  }, []);
 
   return (
     <div>
@@ -58,7 +70,28 @@ function RecipeInProgressDrinks() {
         <img src={ whiteHeartIcon } alt="WhiteHeartIcon" />
       </button>
 
-      {recipe.map((ele, ind) => (
+      <div>
+        <img
+          src={ drink.strdrinkThumb }
+          alt={ drink.strdrink }
+          data-testid="recipe-photo"
+        />
+        <p data-testid="recipe-title">{drink.strdrink}</p>
+        <p data-testid="recipe-category">{drink.strTags}</p>
+
+        <h3>Instructions</h3>
+        <p data-testid="instructions">{drink.strInstructions}</p>
+
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          onClick={ () => console.log('BtnFinalizarReceita') }
+        >
+          Finalizar Receita
+        </button>
+      </div>
+
+      {/* {recipe.map((ele, ind) => (
         <div key={ ind }>
           <p data-testid="recipe-category">{ele.strCategory}</p>
           <img
@@ -97,7 +130,7 @@ function RecipeInProgressDrinks() {
             Finalizar Receita
           </button>
 
-        </div>))}
+        </div>))} */}
 
     </div>
   );
