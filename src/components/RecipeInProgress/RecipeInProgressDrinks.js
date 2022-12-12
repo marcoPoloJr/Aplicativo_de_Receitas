@@ -9,6 +9,8 @@ import { fetchDrinksId } from '../../service/fetchRecipes';
 
 function RecipeInProgressDrinks() {
   const [drink, setDrink] = useState({});
+  const [ingredientes, setIngredientes] = useState([]);
+  const [quant, setQuant] = useState([]);
   // const {
   //   allDrinks,
   //   // alldrinks, allBtnsdrink, allBtnsDrink, filterEspecifdrink, filterEspecifDrink,
@@ -31,19 +33,32 @@ function RecipeInProgressDrinks() {
   //   });
   // });
 
+  const getAllIngredientes = (drinkInProgress) => {
+    const allKeys = Object.keys(drinkInProgress);
+    const allIngred = allKeys.filter((ele) => ele.includes('strIngredient'));
+    const allIngredOk = allIngred.filter((ele) => drinkInProgress[ele] !== null);
+    const allIngredOk2 = allIngredOk.filter((ele) => drinkInProgress[ele] !== '');
+    const allQuant = allKeys.filter((ele) => ele.includes('strMeasure'));
+    const allQuantOk = allQuant.filter((ele) => drinkInProgress[ele] !== null);
+    setIngredientes(allIngredOk2);
+    setQuant(allQuantOk);
+  };
+
   const getTheDrinkInProgress = async () => {
     const numberId = location.match(/\d+/g).map(Number)[0];
     const drinkInProgress = await fetchDrinksId(numberId);
     setDrink(drinkInProgress);
+
+    getAllIngredientes(drinkInProgress);
   };
 
-  // const handleCheck = ({ target }) => {
-  //   if (target.checked) {
-  //     target.parentElement.classList = 'ingredientCheck';
-  //   } else {
-  //     target.parentElement.classList = '';
-  //   }
-  // };
+  const handleCheck = ({ target }) => {
+    if (target.checked) {
+      target.parentElement.classList = 'ingredientCheck';
+    } else {
+      target.parentElement.classList = '';
+    }
+  };
 
   useEffect(() => {
     getTheDrinkInProgress();
@@ -72,15 +87,33 @@ function RecipeInProgressDrinks() {
 
       <div>
         <img
-          src={ drink.strdrinkThumb }
-          alt={ drink.strdrink }
+          src={ drink.strDrinkThumb }
+          alt={ drink.strDrink }
           data-testid="recipe-photo"
         />
-        <p data-testid="recipe-title">{drink.strdrink}</p>
-        <p data-testid="recipe-category">{drink.strTags}</p>
+        <p data-testid="recipe-title">{drink.strDrink}</p>
+        <p data-testid="recipe-category">{drink.strAlcoholic}</p>
 
         <h3>Instructions</h3>
         <p data-testid="instructions">{drink.strInstructions}</p>
+
+        <ul>
+          {
+            ingredientes.map((ele, ind) => (
+              <li key={ ind }>
+                <label htmlFor={ ind } data-testid={ `${ind}-ingredient-step` }>
+                  <input
+                    id={ ind }
+                    name={ drink[ele] }
+                    type="checkbox"
+                    onClick={ handleCheck }
+                  />
+                  {drink[ele]}
+                </label>
+              </li>
+            ))
+          }
+        </ul>
 
         <button
           type="button"

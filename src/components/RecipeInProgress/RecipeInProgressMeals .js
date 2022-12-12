@@ -9,6 +9,8 @@ import '../../App.css';
 
 function RecipeInProgressMeals() {
   const [meal, setMeal] = useState({});
+  const [ingredientes, setIngredientes] = useState([]);
+  const [quant, setQuant] = useState([]);
   // const {
   //   allMeals,
   //   // , allDrinks, allBtnsMeal, allBtnsDrink, filterEspecifMeal, filterEspecifDrink,
@@ -30,24 +32,36 @@ function RecipeInProgressMeals() {
   //     }
   //   });
   // });
+  const getAllIngredientes = (mealInProgress) => {
+    const allKeys = Object.keys(mealInProgress);
+    const allIngred = allKeys.filter((ele) => ele.includes('strIngredient'));
+    const allIngredOk = allIngred.filter((ele) => mealInProgress[ele] !== '');
+    const allIngredOk2 = allIngredOk.filter((ele) => mealInProgress[ele] !== null);
+    const allQuant = allKeys.filter((ele) => ele.includes('strMeasure'));
+    const allQuantOk = allQuant.filter((ele) => mealInProgress[ele] !== '');
+    setIngredientes(allIngredOk2);
+    setQuant(allQuantOk);
+  };
 
   const getTheMealInProgress = async () => {
     const numberId = location.match(/\d+/g).map(Number)[0];
     const mealInProgress = await fetchMealsId(numberId);
     setMeal(mealInProgress);
+
+    getAllIngredientes(mealInProgress);
   };
 
-  // const handleCheck = ({ target }) => {
-  //   if (target.checked) {
-  //     target.parentElement.classList = 'ingredientCheck';
-  //   } else {
-  //     target.parentElement.classList = '';
-  //   }
-  // };
+  const handleCheck = ({ target }) => {
+    if (target.checked) {
+      target.parentElement.classList = 'ingredientCheck';
+    } else {
+      target.parentElement.classList = '';
+    }
+  };
 
   useEffect(() => {
     getTheMealInProgress();
-  }, []);
+  }, [ingredientes]);
 
   return (
     <div>
@@ -81,6 +95,24 @@ function RecipeInProgressMeals() {
 
         <h3>Instructions</h3>
         <p data-testid="instructions">{meal.strInstructions}</p>
+
+        <ul>
+          {
+            ingredientes.map((ele, ind) => (
+              <li key={ ind }>
+                <label htmlFor={ ind } data-testid={ `${ind}-ingredient-step` }>
+                  <input
+                    id={ ind }
+                    name={ meal[ele] }
+                    type="checkbox"
+                    onClick={ handleCheck }
+                  />
+                  {meal[ele]}
+                </label>
+              </li>
+            ))
+          }
+        </ul>
 
         <button
           type="button"
