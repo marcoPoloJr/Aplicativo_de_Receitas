@@ -22,18 +22,19 @@ describe('Testa a página Profile', () => {
     expect(pathname).toBe('/done-recipes');
   });
 
-  test('se a aplicação é redirecionada para a página de Receitas Feitas ao clicar no botão Done Recipes', () => {
+  test('se a aplicação é redirecionada para a página de Receitas Feitas ao clicar no botão Favorite Recipes', () => {
     const { history } = renderWithRouter(
       <RecipesProvider>
         <Profile />
       </RecipesProvider>,
     );
 
-    const buttons = screen.getAllByRole('button');
-    expect(buttons[1]).toBeInTheDocument();
-    expect(buttons[1]).toHaveTextContent('Favorite Recipes');
+    const favoriteRecipesBtn = screen.getByTestId('profile-favorite-btn');
 
-    userEvent.click(buttons[1]);
+    console.log(favoriteRecipesBtn);
+    expect(favoriteRecipesBtn).toBeInTheDocument();
+
+    userEvent.click(favoriteRecipesBtn);
 
     const { pathname } = history.location;
     expect(pathname).toBe('/favorite-recipes');
