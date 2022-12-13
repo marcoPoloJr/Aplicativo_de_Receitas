@@ -1,41 +1,118 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import RecipesContext from '../../context/RecipesContext';
+// import RecipesContext from '../../context/RecipesContext';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import Header from '../Header/Header';
+import { fetchMealsId } from '../../service/fetchRecipes';
 import '../../App.css';
 
 function RecipeInProgressMeals() {
-  const {
-    allMeals,
-    // , allDrinks, allBtnsMeal, allBtnsDrink, filterEspecifMeal, filterEspecifDrink,
-  } = useContext(RecipesContext);
-  const [ingredientCheck, getIngredientCheck]= useState([])
+  const [meal, setMeal] = useState({});
+  const [ingredientes, setIngredientes] = useState([]);
+  const [idRecipe, setIdRecipe] = useState();
+  const [ingredLocalSto, setIngredLocalSto] = useState([]);
   const location = useLocation().pathname;
-  const numberPathname = location.match(/\d+/g).map(Number)[0];
-  const recipe = allMeals.filter((ele) => ele.idMeal.includes(numberPathname));
-  const magicSliceMin = 9;
-  const magicSliceMax = 29;
-  const ingredientsValues = recipe.map((ele) => Object.values(ele)
-    .slice(magicSliceMin, magicSliceMax));
-  const ingredients = [];
-  ingredientsValues.forEach((element) => {
-    element.forEach((el) => {
-      if (el !== '' && el !== null) {
-        return ingredients.push(el);
+
+  const checkIngreLocalStorage = () => {
+    const numberId = location.match(/\d+/g).map(Number)[0];
+    const inProgRecipe = localStorage.getItem('inProgressRecipes');
+    if (inProgRecipe) {
+      const inProgRecipeObj = JSON.parse(inProgRecipe);
+      const allKeys = Object.keys(inProgRecipeObj);
+      const checMealKey = allKeys.some((ele) => ele === 'meals');
+      if (checMealKey) {
+        const allRecipesMeal = Object.keys(inProgRecipeObj.meals);
+        const checkRecipe = allRecipesMeal.some((ele) => Number(ele) === numberId);
+        if (checkRecipe) {
+          const arrIngre = inProgRecipeObj.meals[numberId];
+          setIngredLocalSto(arrIngre);
+        }
       }
-    });
-  });
+    }
+  };
+
+  const handleLocalStorageBroke = (ingredient) => {
+    const inProgRecipe = localStorage.getItem('inProgressRecipes');
+    const inProgRecipeObj = JSON.parse(inProgRecipe);
+    const keyDrinksAndMeals = Object.keys(inProgRecipeObj);
+    const keyDrinksCheck = keyDrinksAndMeals.some((ele) => ele === 'drinks');
+    const drinksObj = keyDrinksCheck ? inProgRecipeObj.drinks : {};
+    const keyMealCheck = keyDrinksAndMeals.some((ele) => ele === 'meals');
+    if (keyMealCheck) {
+      const recipesMeal = Object.keys(inProgRecipeObj.meals);
+      const checkRecipe = recipesMeal.some((ele) => Number(ele) === idRecipe);
+      if (checkRecipe) {
+        const arrAllIngre = inProgRecipeObj.meals[idRecipe];
+        const checkArrayIngre = arrAllIngre.every((ele) => ele !== ingredient);
+        if (checkArrayIngre) {
+          const arrIngre = [...arrAllIngre, ingredient];
+          inProgRecipeObj.meals[idRecipe] = arrIngre;
+          const allFood = { drinks: drinksObj, meals: inProgRecipeObj.meals };
+          localStorage.setItem('inProgressRecipes', JSON.stringify(allFood));
+        } else {
+          const newArrIngre = arrAllIngre.filter((ele) => ele !== ingredient);
+          inProgRecipeObj.meals[idRecipe] = newArrIngre;
+          const allFood = { drinks: drinksObj, meals: inProgRecipeObj.drinks };
+          localStorage.setItem('inProgressRecipes', JSON.stringify(allFood));
+        }
+      } else {
+        const objectMeal = { ...inProgRecipeObj.meals, [idRecipe]: [ingredient] };
+        const allFood = { drinks: drinksObj, meals: objectMeal };
+        localStorage.setItem('inProgressRecipes', JSON.stringify(allFood));
+      }
+    } else {
+      const objMeal = {
+        meals: { [idRecipe]: [ingredient] },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(objMeal));
+    }
+  };
+
+  const handleLocalStorage = (ingredient) => {
+    const inProgRecipe = localStorage.getItem('inProgressRecipes');
+    if (inProgRecipe) {
+      handleLocalStorageBroke(ingredient);
+    } else {
+      const objMeal = {
+        meals: { [idRecipe]: [ingredient] },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(objMeal));
+    }
+    checkIngreLocalStorage();
+  };
+
+  const getAllIngredientes = (mealInProgress) => {
+    const allKeys = Object.keys(mealInProgress);
+    const allIngred = allKeys.filter((ele) => ele.includes('strIngredient'));
+    const allIngredOk = allIngred.filter((ele) => mealInProgress[ele] !== '');
+    const allIngredOk2 = allIngredOk.filter((ele) => mealInProgress[ele] !== null);
+    setIngredientes(allIngredOk2);
+  };
+
+  const getTheMealInProgress = async () => {
+    const numberId = location.match(/\d+/g).map(Number)[0];
+    setIdRecipe(numberId);
+    const mealInProgress = await fetchMealsId(numberId);
+    setMeal(mealInProgress);
+
+    getAllIngredientes(mealInProgress);
+  };
+
   const handleCheck = ({ target }) => {
-    console.log(target.parentElement)
     if (target.checked) {
       target.parentElement.classList = 'ingredientCheck';
-      
     } else {
       target.parentElement.classList = '';
     }
+    handleLocalStorage(target.name);
   };
+
+  useEffect(() => {
+    getTheMealInProgress();
+    checkIngreLocalStorage();
+  }, []);
+
   return (
     <div>
       <Header />
@@ -57,46 +134,50 @@ function RecipeInProgressMeals() {
         <img src={ whiteHeartIcon } alt="WhiteHeartIcon" />
       </button>
 
-      {recipe.map((ele, ind) => (
-        <div key={ ind }>
-          <p data-testid="recipe-category">{ele.strTags}</p>
-          <img
-            src={ ele.strMealThumb }
-            alt={ ele.strMeal }
-            data-testid="recipe-photo"
-          />
-          <p data-testid="recipe-title">{ele.strMeal}</p>
-          <h3>Ingredient</h3>
-          <ul>
-            {ingredients.map((el, index) => (
-              <li key={ index }>
+      <div>
+        <img
+          src={ meal.strMealThumb }
+          alt={ meal.strMeal }
+          data-testid="recipe-photo"
+        />
+        <p data-testid="recipe-title">{meal.strMeal}</p>
+        <p data-testid="recipe-category">{meal.strTags}</p>
+
+        <h3>Instructions</h3>
+        <p data-testid="instructions">{meal.strInstructions}</p>
+
+        <ul>
+          {
+            ingredientes.map((ele, ind) => (
+              <li key={ ind }>
                 <label
-                  htmlFor="ingredient-step"
-                  data-testid={ `${index}-ingredient-step` }
+                  htmlFor={ ind }
+                  data-testid={ `${ind}-ingredient-step` }
+                  className={ ingredLocalSto
+                    .includes(meal[ele]) ? 'ingredientCheck' : '' }
                 >
                   <input
-                    id="ingredient-step"
+                    id={ ind }
+                    name={ meal[ele] }
+                    checked={ ingredLocalSto.some((eleme) => eleme === meal[ele]) }
                     type="checkbox"
-                    onClick={ handleCheck }
+                    onChange={ handleCheck }
                   />
-                  {el}
-
+                  {meal[ele]}
                 </label>
               </li>
-            ))}
-          </ul>
+            ))
+          }
+        </ul>
 
-          <h3>Instructions</h3>
-          <p data-testid="instructions">{ele.strInstructions}</p>
-          <button
-            type="button"
-            data-testid="finish-recipe-btn"
-            onClick={ () => console.log('BtnFinalizarReceita') }
-          >
-            Finalizar Receita
-          </button>
-
-        </div>))}
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          onClick={ () => console.log('BtnFinalizarReceita') }
+        >
+          Finalizar Receita
+        </button>
+      </div>
 
     </div>
   );
