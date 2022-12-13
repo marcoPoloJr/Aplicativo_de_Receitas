@@ -1,11 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 
 function Profile() {
-  localStorage.setItem('user', 'teste@test.com');
+  const history = useHistory();
   const email = localStorage.getItem('user');
+  const doneRecipes = () => history.push('/done-recipes');
+  const favoriteRecipes = () => history.push('/favorite-recipes');
+  const logout = () => {
+    localStorage.clear();
+    history.push('/');
+  };
 
   return (
     <div>
@@ -15,8 +21,8 @@ function Profile() {
       <Link to="/done-recipes">
         <button
           type="button"
-          data-testid="profile-favorite-btn"
-          onClick={ () => console.log('Done Recipes') }
+          data-testid="profile-done-btn"
+          onClick={ () => doneRecipes() }
         >
           Done Recipes
         </button>
@@ -25,7 +31,7 @@ function Profile() {
         <button
           type="button"
           data-testid="profile-favorite-btn"
-          onClick={ () => console.log('Favorite Recipes') }
+          onClick={ () => favoriteRecipes() }
         >
           Favorite Recipes
         </button>
@@ -35,7 +41,7 @@ function Profile() {
         <button
           type="button"
           data-testid="profile-logout-btn"
-          onClick={ () => console.log('Logout') }
+          onClick={ () => logout() }
         >
           Logout
         </button>
