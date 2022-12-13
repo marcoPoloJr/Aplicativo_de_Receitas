@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-// import RecipesContext from '../../context/RecipesContext';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import Header from '../Header/Header';
 import { fetchDrinksId } from '../../service/fetchRecipes';
 import '../../App.css';
@@ -12,8 +12,61 @@ function RecipeInProgressDrinks() {
   const [ingredientes, setIngredientes] = useState([]);
   const [idRecipe, setIdRecipe] = useState();
   const [ingredLocalSto, setIngredLocalSto] = useState([]);
+  const [isBtnShare, setIsBtnShare] = useState(true);
+  const [isFavoriteRecipe, setIsFavoriteRecipe] = useState(false);
   const location = useLocation().pathname;
 
+  const checkFavoriteRecipeOrNot = () => {
+    const numberId = location.match(/\d+/g).map(Number)[0];
+    const allFavoriteRecipes = localStorage.getItem('favoriteRecipes');
+    if (allFavoriteRecipes) {
+      const allFavoriteRecipesArray = JSON.parse(allFavoriteRecipes);
+      const favoriteOk = allFavoriteRecipesArray
+        .some((ele) => Number(ele.id) === numberId);
+      if (favoriteOk) {
+        setIsFavoriteRecipe(true);
+      } else {
+        setIsFavoriteRecipe(false);
+      }
+    }
+  };
+  const saveRecipe = () => {
+    const { idDrink, strCategory, strAlcoholic, strDrink, strDrinkThumb } = drink;
+    const obj = {
+      id: idDrink,
+      type: 'drink',
+      nationality: '',
+      category: strCategory,
+      alcoholicOrNot: strAlcoholic,
+      name: strDrink,
+      image: strDrinkThumb,
+    };
+    const allFavoriteRecipes = localStorage.getItem('favoriteRecipes');
+    if (allFavoriteRecipes) {
+      const allFavoriteRecipesArray = JSON.parse(allFavoriteRecipes);
+      const checkRecipeIsFavorite = allFavoriteRecipesArray
+        .every((ele) => Number(ele.id) !== idRecipe);
+      if (checkRecipeIsFavorite) {
+        const arrayObj = [...allFavoriteRecipesArray, obj];
+        localStorage.setItem('favoriteRecipes', JSON.stringify(arrayObj));
+      } else {
+        const newFavoriteArray = allFavoriteRecipesArray
+          .filter((ele) => Number(ele.id) !== idRecipe);
+        localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteArray));
+      }
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([obj]));
+    }
+    checkFavoriteRecipeOrNot();
+  };
+  const copyLink = () => {
+    const MIL = 1000;
+    setIsBtnShare(false);
+    navigator.clipboard.writeText(`http://localhost:3000/drinks/${idRecipe}`);
+    setTimeout(() => {
+      setIsBtnShare(true);
+    }, MIL);
+  };
   const checkIngreLocalStorage = () => {
     const numberId = location.match(/\d+/g).map(Number)[0];
     const inProgRecipe = localStorage.getItem('inProgressRecipes');
@@ -31,7 +84,6 @@ function RecipeInProgressDrinks() {
       }
     }
   };
-
   const handleLocalStorageBroke = (ingredient) => {
     const inProgRecipe = localStorage.getItem('inProgressRecipes');
     const inProgRecipeObj = JSON.parse(inProgRecipe);
@@ -70,7 +122,6 @@ function RecipeInProgressDrinks() {
     }
     checkIngreLocalStorage();
   };
-
   const handleLocalStorage = (ingredient) => {
     const inProgRecipe = localStorage.getItem('inProgressRecipes');
     if (inProgRecipe) {
@@ -83,7 +134,6 @@ function RecipeInProgressDrinks() {
     }
     checkIngreLocalStorage();
   };
-
   const getAllIngredientes = (drinkInProgress) => {
     const allKeys = Object.keys(drinkInProgress);
     const allIngred = allKeys.filter((ele) => ele.includes('strIngredient'));
@@ -91,7 +141,6 @@ function RecipeInProgressDrinks() {
     const allIngredOk2 = allIngredOk.filter((ele) => drinkInProgress[ele] !== '');
     setIngredientes(allIngredOk2);
   };
-
   const getTheDrinkInProgress = async () => {
     const numberId = location.match(/\d+/g).map(Number)[0];
     setIdRecipe(numberId);
@@ -100,7 +149,6 @@ function RecipeInProgressDrinks() {
 
     getAllIngredientes(drinkInProgress);
   };
-
   const handleCheck = ({ target }) => {
     if (target.checked) {
       target.parentElement.classList = 'ingredientCheck';
@@ -109,33 +157,36 @@ function RecipeInProgressDrinks() {
     }
     handleLocalStorage(target.name);
   };
-
   useEffect(() => {
     getTheDrinkInProgress();
     checkIngreLocalStorage();
+    checkFavoriteRecipeOrNot();
   }, []);
-
   return (
     <div>
       <Header />
       <h3>Drinks</h3>
-
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ () => console.log('BtnCompartilar') }
-      >
-        <img src={ shareIcon } alt="shareIcon" />
-      </button>
-
+      {isBtnShare
+        ? (
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ () => { copyLink(); } }
+          >
+            <img src={ shareIcon } alt="shareIcon" />
+          </button>) : <p>Link copied!</p>}
       <button
         type="button"
         data-testid="favorite-btn"
-        onClick={ () => console.log('BtnFavoritar') }
+        onClick={ () => { saveRecipe(); } }
+        src={ isFavoriteRecipe ? blackHeartIcon : whiteHeartIcon }
+        aria-label={ isFavoriteRecipe ? 'remove favorite' : 'favorite it' }
       >
-        <img src={ whiteHeartIcon } alt="WhiteHeartIcon" />
+        <img
+          src={ isFavoriteRecipe ? blackHeartIcon : whiteHeartIcon }
+          alt={ isFavoriteRecipe ? 'blackHeartIcon' : 'whiteHeartIcon' }
+        />
       </button>
-
       <div>
         <img
           src={ drink.strDrinkThumb }
@@ -144,10 +195,8 @@ function RecipeInProgressDrinks() {
         />
         <p data-testid="recipe-title">{drink.strDrink}</p>
         <p data-testid="recipe-category">{drink.strAlcoholic}</p>
-
         <h3>Instructions</h3>
         <p data-testid="instructions">{drink.strInstructions}</p>
-
         <ul>
           {
             ingredientes.map((ele, ind) => (
@@ -171,7 +220,6 @@ function RecipeInProgressDrinks() {
             ))
           }
         </ul>
-
         <button
           type="button"
           data-testid="finish-recipe-btn"
@@ -183,5 +231,4 @@ function RecipeInProgressDrinks() {
     </div>
   );
 }
-
 export default RecipeInProgressDrinks;
