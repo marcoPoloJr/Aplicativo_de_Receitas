@@ -5,47 +5,96 @@ import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import Header from '../Header/Header';
 import { fetchDrinksId } from '../../service/fetchRecipes';
-// import App from '../../App.css';
+import '../../App.css';
 
 function RecipeInProgressDrinks() {
   const [drink, setDrink] = useState({});
   const [ingredientes, setIngredientes] = useState([]);
-  // const [quant, setQuant] = useState([]);
-  // const {
-  //   allDrinks,
-  //   // alldrinks, allBtnsdrink, allBtnsDrink, filterEspecifdrink, filterEspecifDrink,
-  // } = useContext(RecipesContext);
-  // console.log(allDrinks);
+  const [idRecipe, setIdRecipe] = useState();
+  const [ingredLocalSto, setIngredLocalSto] = useState([]);
   const location = useLocation().pathname;
-  // const numberPathname = location.match(/\d+/g).map(Number)[0];
-  // const recipe = allDrinks.filter((ele) => ele.idDrink.includes(numberPathname));
-  // const magicSliceMin = 17;
-  // const magicSliceMax = 32;
-  // const ingredientsValues = recipe.map((ele) => Object.values(ele)
-  //   .slice(magicSliceMin, magicSliceMax));
-  // console.log(ingredientsValues);
-  // const ingredients = [];
-  // ingredientsValues.forEach((element) => {
-  //   element.forEach((el) => {
-  //     if (el !== '' && el !== null) {
-  //       return ingredients.push(el);
-  //     }
-  //   });
-  // });
+
+  const checkIngreLocalStorage = () => {
+    const numberId = location.match(/\d+/g).map(Number)[0];
+    const inProgRecipe = localStorage.getItem('inProgressRecipes');
+    if (inProgRecipe) {
+      const inProgRecipeObj = JSON.parse(inProgRecipe);
+      const allKeys = Object.keys(inProgRecipeObj);
+      const checkDrinkKey = allKeys.some((ele) => ele === 'drinks');
+      if (checkDrinkKey) {
+        const allRecipesDrink = Object.keys(inProgRecipeObj.drinks);
+        const checkRecipe = allRecipesDrink.some((ele) => Number(ele) === numberId);
+        if (checkRecipe) {
+          const arrIngre = inProgRecipeObj.drinks[numberId];
+          setIngredLocalSto(arrIngre);
+        }
+      }
+    }
+  };
+
+  const handleLocalStorageBroke = (ingredient) => {
+    const inProgRecipe = localStorage.getItem('inProgressRecipes');
+    const inProgRecipeObj = JSON.parse(inProgRecipe);
+    const keyDrinksAndMeals = Object.keys(inProgRecipeObj);
+    const keyMealsCheck = keyDrinksAndMeals.some((ele) => ele === 'meals');
+    const mealsObj = keyMealsCheck ? inProgRecipeObj.meals : {};
+    const keyDrinkCheck = keyDrinksAndMeals.some((ele) => ele === 'drinks');
+    if (keyDrinkCheck) {
+      const recipesDrink = Object.keys(inProgRecipeObj.drinks);
+      const checkRecipe = recipesDrink.some((ele) => Number(ele) === idRecipe);
+      if (checkRecipe) {
+        const arrAllIngre = inProgRecipeObj.drinks[idRecipe];
+        const checkArrayIngre = arrAllIngre.every((ele) => ele !== ingredient);
+        if (checkArrayIngre) {
+          const arrIngre = [...arrAllIngre, ingredient];
+          inProgRecipeObj.drinks[idRecipe] = arrIngre;
+          const allFood = { drinks: inProgRecipeObj.drinks, meals: mealsObj };
+          localStorage.setItem('inProgressRecipes', JSON.stringify(allFood));
+        } else {
+          const newArrIngre = arrAllIngre.filter((ele) => ele !== ingredient);
+          inProgRecipeObj.drinks[idRecipe] = newArrIngre;
+          const allFood = { drinks: inProgRecipeObj.drinks, meals: mealsObj };
+          localStorage.setItem('inProgressRecipes', JSON.stringify(allFood));
+        }
+      } else {
+        const objectDrink = { ...inProgRecipeObj.drinks, [idRecipe]: [ingredient] };
+        const allFood = { drinks: objectDrink, meals: mealsObj };
+        localStorage.setItem('inProgressRecipes', JSON.stringify(allFood));
+      }
+    } else {
+      const objDrink = {
+        drinks: { [idRecipe]: [ingredient] },
+      };
+      const allFood = { objDrink, mealsObj };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(allFood));
+    }
+    checkIngreLocalStorage();
+  };
+
+  const handleLocalStorage = (ingredient) => {
+    const inProgRecipe = localStorage.getItem('inProgressRecipes');
+    if (inProgRecipe) {
+      handleLocalStorageBroke(ingredient);
+    } else {
+      const objDrink = {
+        drinks: { [idRecipe]: [ingredient] },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(objDrink));
+    }
+    checkIngreLocalStorage();
+  };
 
   const getAllIngredientes = (drinkInProgress) => {
     const allKeys = Object.keys(drinkInProgress);
     const allIngred = allKeys.filter((ele) => ele.includes('strIngredient'));
     const allIngredOk = allIngred.filter((ele) => drinkInProgress[ele] !== null);
     const allIngredOk2 = allIngredOk.filter((ele) => drinkInProgress[ele] !== '');
-    const allQuant = allKeys.filter((ele) => ele.includes('strMeasure'));
-    const allQuantOk = allQuant.filter((ele) => drinkInProgress[ele] !== null);
     setIngredientes(allIngredOk2);
-    setQuant(allQuantOk);
   };
 
   const getTheDrinkInProgress = async () => {
     const numberId = location.match(/\d+/g).map(Number)[0];
+    setIdRecipe(numberId);
     const drinkInProgress = await fetchDrinksId(numberId);
     setDrink(drinkInProgress);
 
@@ -58,10 +107,12 @@ function RecipeInProgressDrinks() {
     } else {
       target.parentElement.classList = '';
     }
+    handleLocalStorage(target.name);
   };
 
   useEffect(() => {
     getTheDrinkInProgress();
+    checkIngreLocalStorage();
   }, []);
 
   return (
@@ -101,12 +152,18 @@ function RecipeInProgressDrinks() {
           {
             ingredientes.map((ele, ind) => (
               <li key={ ind }>
-                <label htmlFor={ ind } data-testid={ `${ind}-ingredient-step` }>
+                <label
+                  htmlFor={ ind }
+                  data-testid={ `${ind}-ingredient-step` }
+                  className={ ingredLocalSto
+                    .includes(drink[ele]) ? 'ingredientCheck' : '' }
+                >
                   <input
                     id={ ind }
                     name={ drink[ele] }
+                    checked={ ingredLocalSto.some((eleme) => eleme === drink[ele]) }
                     type="checkbox"
-                    onClick={ handleCheck }
+                    onChange={ handleCheck }
                   />
                   {drink[ele]}
                 </label>
@@ -123,48 +180,6 @@ function RecipeInProgressDrinks() {
           Finalizar Receita
         </button>
       </div>
-
-      {/* {recipe.map((ele, ind) => (
-        <div key={ ind }>
-          <p data-testid="recipe-category">{ele.strCategory}</p>
-          <img
-            src={ ele.strDrinkThumb }
-            alt={ ele.strDrink }
-            data-testid="recipe-photo"
-          />
-          <p data-testid="recipe-title">{ele.strDrink }</p>
-          <h3>ingredient</h3>
-          <ul>
-            {ingredients.map((el, index) => (
-              <li key={ index }>
-                <label
-                  htmlFor={ index }
-                  data-testid={ `${index}-ingredient-step` }
-                >
-                  <input
-                    id={ index }
-                    type="checkbox"
-                    onClick={ handleCheck }
-                  />
-                  {el}
-
-                </label>
-              </li>
-            ))}
-          </ul>
-
-          <h3>Instructions</h3>
-          <p data-testid="instructions">{ele.strInstructions}</p>
-          <button
-            type="button"
-            data-testid="finish-recipe-btn"
-            onClick={ () => console.log('BtnFinalizarReceita') }
-          >
-            Finalizar Receita
-          </button>
-
-        </div>))} */}
-
     </div>
   );
 }
