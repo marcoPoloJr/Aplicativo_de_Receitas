@@ -223,6 +223,7 @@ function RecipeInProgressMeals() {
           type="button"
           data-testid="finish-recipe-btn"
           onClick={ () => console.log('BtnFinalizarReceita') }
+          disabled={true}
         >
           Finalizar Receita
         </button>

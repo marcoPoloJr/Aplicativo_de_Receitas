@@ -6,6 +6,7 @@ import Header from '../Header/Header';
 function Profile() {
   const history = useHistory();
   const email = localStorage.getItem('user');
+  const test = JSON.parse(email);
   const doneRecipes = () => history.push('/done-recipes');
   const favoriteRecipes = () => history.push('/favorite-recipes');
   const logout = () => {
@@ -17,7 +18,7 @@ function Profile() {
     <div>
       <Header />
       <h1>Profile</h1>
-      <p data-testid="profile-email">{email}</p>
+      <p data-testid="profile-email">{test.email}</p>
       <Link to="/done-recipes">
         <button
           type="button"

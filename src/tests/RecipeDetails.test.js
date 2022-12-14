@@ -1,12 +1,15 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import App from '../App';
+import RecipesProvider from '../context/RecipesProvider';
+import RecipeDetails from '../components/RecipeDetails/RecipeDetails';
 import { renderWithRouter } from './renders/RenderWithRouter';
 
 describe('Testa o componente RecipeDetails', () => {
   test('Testa se o componente está sendo renderizado corretamente', async () => {
     const { history } = renderWithRouter(
-      <App />,
+      <RecipesProvider>
+      <RecipeDetails />
+      </RecipesProvider>
     );
 
     act(() => {
