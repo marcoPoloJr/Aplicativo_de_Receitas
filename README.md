@@ -24,15 +24,20 @@ O aplicativo consiste em uma plataforma onde os usuários podem cadastrar e busc
 
 ## Orientações
  1. Clone o repositório
-    - Use o comando: `git clone git@github.com:marcoPoloJr/Aplicativo_de_Receitas.git`.
-    - - Entre na pasta do repositório que você acabou de clonar:
-    - `cd Aplicativo_de_Receitas`.
+    - Use o comando
+      - `git clone git@github.com:marcoPoloJr/Aplicativo_de_Receitas.git`.
+    - Entre na pasta do repositório que você acabou de clonar:
+      - `cd Aplicativo_de_Receitas`.
  2. Instale as dependências e inicialize o projeto
     - Instale as dependências:
-    - `npm install`
-  - Inicialize o projeto:
-    - `npm start` (uma nova página deve abrir no seu navegador)
-    - 
+      - `npm install`
+    - Inicialize o projeto:
+       - `npm start` (uma nova página deve abrir no seu navegador)
+3. Login e senha:
+    - Será solicitado uma verificação de login e senha:
+      - "Login: marco@polo.com"
+      - "Senha: 123456789"
+    
 ## Agradecimentos
 
 Agradeço à equipe da Trybe por disponibilizar um conteúdo de qualidade e por fornecer a oportunidade de desenvolver este projeto.
